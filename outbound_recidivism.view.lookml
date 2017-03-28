@@ -1,1 +1,0 @@
-/home/looker/models/clarity_basemodel/outbound_recidivism.view.lookml

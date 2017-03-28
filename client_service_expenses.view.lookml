@@ -1,1 +1,0 @@
-/home/looker/models/clarity_basemodel/client_service_expenses.view.lookml

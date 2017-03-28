@@ -1,1 +1,0 @@
-/home/looker/models/clarity_basemodel/agencies.view.lookml

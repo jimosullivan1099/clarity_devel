@@ -1,1 +1,0 @@
-/home/looker/models/clarity_basemodel/household_entry_screen.view.lookml

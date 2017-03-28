@@ -1,1 +1,0 @@
-/home/looker/models/clarity_basemodel/fields.view.lookml

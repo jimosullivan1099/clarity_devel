@@ -1,1 +1,0 @@
-/home/looker/models/clarity_basemodel/assessment_processors.view.lookml
