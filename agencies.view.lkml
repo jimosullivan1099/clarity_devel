@@ -105,7 +105,7 @@ view: agencies {
   }
 
   dimension: status {
-    label: "Agency Active"
+    label: "Agency Active?"
 
     case: {
       when: {

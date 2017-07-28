@@ -39,6 +39,12 @@ view: client_assessments {
     sql: ${TABLE}.deleted ;;
   }
 
+  dimension: private {
+    type: yesno
+    description: "is this assessment private yes/no"
+    sql: ${TABLE}.private ;;
+  }
+
   dimension: sub_score_general {
     type: number
     group_label: "VI--SPDAT assessment_questions"
@@ -104,7 +110,6 @@ view: client_assessments {
     type: tier
     style: integer
     tiers: [1, 5, 10, 21, 30]
-    #X# suggest:true
     sql: ${assessment_score} ;;
   }
 
@@ -141,18 +146,18 @@ view: client_assessments {
   }
 
   #   - dimension: benefit_snap
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefit_snap
   #
   #   - dimension: benefits_medicaid
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_medicaid
   #
   dimension: benefits_medicare {
     label: "Insurance - Medicare"
     type: yesno
     group_label: "VI--SPDAT assessment_questions"
-    sql: fn_getPicklistValueName('benefits_medicare',${TABLE}.benefits_medicare) ;;
+    sql: ${TABLE}.benefits_medicare ;;
   }
 
   #
@@ -160,23 +165,23 @@ view: client_assessments {
     label: "Insurance - None"
     type: yesno
     group_label: "VI--SPDAT assessment_questions"
-    sql: fn_getPicklistValueName('benefits_no_insurance',${TABLE}.benefits_no_insurance) ;;
+    sql: ${TABLE}.benefits_no_insurance ;;
   }
 
   dimension: other_health_insurance {
     label: "Insurance - Other"
     type: yesno
     group_label: "VI--SPDAT assessment_questions"
-    sql: fn_getPicklistValueName('other_health_insurance',${TABLE}.other_health_insurance) ;;
+    sql: ${TABLE}.other_health_insurance ;;
   }
 
   #
   #   - dimension: benefits_noncash
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_noncash
   #
   #   - dimension: benefits_other
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_other
   #
   #   - dimension: benefits_other_source
@@ -186,72 +191,72 @@ view: client_assessments {
     label: "Insurance - Private Insurance"
     type: yesno
     group_label: "VI--SPDAT assessment_questions"
-    sql: fn_getPicklistValueName('benefits_private_insurance',${TABLE}.benefits_private_insurance) ;;
+    sql: ${TABLE}.benefits_private_insurance ;;
   }
 
   #
   #   - dimension: benefits_schip
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_schip
   #
   #   - dimension: benefits_section8
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_section8
   #
   #   - dimension: benefits_tanf_childcare
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_tanf_childcare
   #
   #   - dimension: benefits_tanf_other
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_tanf_other
   #
   #   - dimension: benefits_tanf_transportation
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_tanf_transportation
   #
   #   - dimension: benefits_temp_rent
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_temp_rent
   #
   dimension: benefits_va_medical {
     label: "Insurance - VA Medical"
     type: yesno
     group_label: "VI--SPDAT assessment_questions"
-    sql: fn_getPicklistValueName('benefits_va_medical',${TABLE}.benefits_va_medical) ;;
+    sql: ${TABLE}.benefits_va_medical ;;
   }
 
   #
   #   - dimension: benefits_wic
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.benefits_wic
   #
   #   - dimension: birth_nation
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.birth_nation
   #
   #   - dimension: chronic_1
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.chronic_1
   #
   #   - dimension: chronic_2
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.chronic_2
   #
   #   - dimension: chronic_3
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.chronic_3
   #
   #   - dimension: chronic_4
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.chronic_4
   #
   #   - dimension: chronic_5
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.chronic_5
   #
   #   - dimension: chronic_homeless
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.chronic_homeless
   #
   dimension: citizen_status {
@@ -276,90 +281,90 @@ view: client_assessments {
 
   #
   #   - dimension: dob_quality
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.dob_quality
   #
   #   - dimension: domain_01
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_01
   #
   #   - dimension: domain_02
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_02
   #
   #   - dimension: domain_03
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_03
   #
   #   - dimension: domain_04
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_04
   #
   #   - dimension: domain_05
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_05
   #
   #   - dimension: domain_06
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_06
   #
   #   - dimension: domain_07
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_07
   #
   #   - dimension: domain_08
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_08
   #
   #   - dimension: domain_09
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_09
   #
   #   - dimension: domain_10
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_10
   #
   #   - dimension: domain_11
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_11
   #
   #   - dimension: domain_12
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_12
   #
   #   - dimension: domain_13
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_13
   #
   #   - dimension: domain_14
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_14
   #
   #   - dimension: domain_15
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_15
   #
   #   - dimension: domain_16
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_16
   #
   #   - dimension: domain_17
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_17
   #
   #   - dimension: domain_18
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.domain_18
   #
   #   - dimension: drivers_license
   #     sql: ${TABLE}.drivers_license
   #
   #   - dimension: education_child_barriers
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.education_child_barriers
   #
   #   - dimension: education_child_enrolled
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.education_child_enrolled
   #
   #   - dimension_group: education_child_last
@@ -369,69 +374,69 @@ view: client_assessments {
   #     sql: ${TABLE}.education_child_last_date
   #
   #   - dimension: education_child_liaison
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.education_child_liaison
   #
   #   - dimension: education_child_school
   #     sql: ${TABLE}.education_child_school
   #
   #   - dimension: education_child_type
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.education_child_type
   #
   #   - dimension: education_degree
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.education_degree
   #
   #   - dimension: education_enrolled
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.education_enrolled
   #
   #   - dimension: education_level
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.education_level
   #
   #   - dimension: education_vocational
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.education_vocational
   #
   #   - dimension: employment_hours
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.employment_hours
   #
   #   - dimension: employment_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.employment_is
   #
   #   - dimension: employment_seeking
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.employment_seeking
   #
   #   - dimension: employment_status
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.employment_status
   #
   #   - dimension: employment_tenure
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.employment_tenure
   #
   #   - dimension: ethnicity
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.ethnicity
   #
   #   - dimension: exit_destination
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.exit_destination
   #
   #   - dimension: exit_destination_other
   #     sql: ${TABLE}.exit_destination_other
   #
   #   - dimension: exit_reason
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.exit_reason
   #
   #   - dimension: gender
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.gender
   #
   #   - dimension: gender_other
@@ -446,107 +451,107 @@ view: client_assessments {
   #     sql: ${TABLE}.gross_ann_ind_income
   #
   #   - dimension: health_chronic
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_chronic
   #
   #   - dimension: health_chronic_documented
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_chronic_documented
   #
   #   - dimension: health_chronic_longterm
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_chronic_longterm
   #
   #   - dimension: health_chronic_services
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_chronic_services
   #
   #   - dimension: health_dev_disability
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_dev_disability
   #
   #   - dimension: health_dev_disability_documented
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_dev_disability_documented
   #
   #   - dimension: health_dev_disability_independence
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_dev_disability_independence
   #
   #   - dimension: health_dev_disability_services
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_dev_disability_services
   #
   #   - dimension: health_dv
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_dv
   #
   #   - dimension: health_dv_occurred
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_dv_occurred
   #
   #   - dimension: health_general
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_general
   #
   #   - dimension: health_hiv
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_hiv
   #
   #   - dimension: health_hiv_documented
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_hiv_documented
   #
   #   - dimension: health_hiv_independence
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_hiv_independence
   #
   #   - dimension: health_hiv_services
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_hiv_services
   #
   #   - dimension: health_ins_cobra
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_ins_cobra
   #
   #   - dimension: health_ins_emp
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_ins_emp
   #
   #   - dimension: health_ins_ppay
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_ins_ppay
   #
   #   - dimension: health_ins_state
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_ins_state
   #
   #   - dimension: health_insurance
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_insurance
   #
   #   - dimension: health_mental
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_mental
   #
   #   - dimension: health_mental_confirmed
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_mental_confirmed
   #
   #   - dimension: health_mental_documented
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_mental_documented
   #
   #   - dimension: health_mental_longterm
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_mental_longterm
   #
   #   - dimension: health_mental_services
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_mental_services
   #
   #   - dimension: health_mental_smi
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_mental_smi
   #
   dimension: health_phys_disability {
@@ -557,19 +562,19 @@ view: client_assessments {
 
   #
   #   - dimension: health_phys_disability_documented
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_phys_disability_documented
   #
   #   - dimension: health_phys_disability_longterm
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_phys_disability_longterm
   #
   #   - dimension: health_phys_disability_services
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_phys_disability_services
   #
   #   - dimension: health_pregnancy
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_pregnancy
   #
   #   - dimension_group: health_pregnancy
@@ -579,39 +584,39 @@ view: client_assessments {
   #     sql: ${TABLE}.health_pregnancy_date
   #
   #   - dimension: health_substance_abuse
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_substance_abuse
   #
   #   - dimension: health_substance_abuse_confirmed
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_substance_abuse_confirmed
   #
   #   - dimension: health_substance_abuse_documented
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_substance_abuse_documented
   #
   #   - dimension: health_substance_abuse_longterm
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_substance_abuse_longterm
   #
   #   - dimension: health_substance_abuse_services
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.health_substance_abuse_services
   #
   #   - dimension: housing_ass_exit
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.housing_ass_exit
   #
   #   - dimension: housing_ass_exit_1
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.housing_ass_exit_1
   #
   #   - dimension: housing_ass_exit_2
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.housing_ass_exit_2
   #
   #   - dimension: housing_status
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.housing_status
   #
   #   - dimension: income_cash
@@ -619,7 +624,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_cash
   #
   #   - dimension: income_cash_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_cash_is
   #
   #   - dimension: income_childsupport
@@ -627,7 +632,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_childsupport
   #
   #   - dimension: income_childsupport_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_childsupport_is
   #
   #   - dimension: income_earned
@@ -635,7 +640,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_earned
   #
   #   - dimension: income_earned_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_earned_is
   #
   #   - dimension: income_ga
@@ -643,7 +648,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_ga
   #
   #   - dimension: income_ga_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_ga_is
   #
   #   - dimension: income_individual
@@ -655,7 +660,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_other
   #
   #   - dimension: income_other_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_other_is
   #
   #   - dimension: income_other_source
@@ -666,7 +671,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_private_disability
   #
   #   - dimension: income_private_disability_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_private_disability_is
   #
   #   - dimension: income_private_pension
@@ -674,7 +679,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_private_pension
   #
   #   - dimension: income_private_pension_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_private_pension_is
   #
   #   - dimension: income_spousal_support
@@ -682,7 +687,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_spousal_support
   #
   #   - dimension: income_spousal_support_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_spousal_support_is
   #
   #   - dimension: income_ss_retirement
@@ -690,7 +695,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_ss_retirement
   #
   #   - dimension: income_ss_retirement_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_ss_retirement_is
   #
   #   - dimension: income_ssdi
@@ -698,7 +703,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_ssdi
   #
   #   - dimension: income_ssdi_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_ssdi_is
   #
   #   - dimension: income_ssi
@@ -706,7 +711,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_ssi
   #
   #   - dimension: income_ssi_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_ssi_is
   #
   #   - dimension: income_tanf
@@ -714,7 +719,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_tanf
   #
   #   - dimension: income_tanf_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_tanf_is
   #
   #   - dimension: income_unemployment
@@ -722,7 +727,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_unemployment
   #
   #   - dimension: income_unemployment_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_unemployment_is
   #
   #   - dimension: income_vet_disability
@@ -730,7 +735,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_vet_disability
   #
   #   - dimension: income_vet_disability_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_vet_disability_is
   #
   #   - dimension: income_vet_pension
@@ -738,7 +743,7 @@ view: client_assessments {
   #     sql: ${TABLE}.income_vet_pension
   #
   #   - dimension: income_vet_pension_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_vet_pension_is
   #
   #   - dimension: income_workers_comp
@@ -746,22 +751,22 @@ view: client_assessments {
   #     sql: ${TABLE}.income_workers_comp
   #
   #   - dimension: income_workers_comp_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.income_workers_comp_is
   #
   #   - dimension: jewish
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.jewish
   #
   #   - dimension: jewish_affiliation
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.jewish_affiliation
   #
   #   - dimension: jewish_rabbi
   #     sql: ${TABLE}.jewish_rabbi
   #
   #   - dimension: jewish_referred
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.jewish_referred
   #
   #   - dimension_group: last_updated
@@ -770,7 +775,7 @@ view: client_assessments {
   #     sql: ${TABLE}.last_updated
   #
   #   - dimension: marital_status
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.marital_status
   #
   #   - dimension_group: move_in
@@ -783,23 +788,23 @@ view: client_assessments {
   #     sql: ${TABLE}.name_middle
   #
   #   - dimension: name_quality
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.name_quality
   #
   #   - dimension: name_suffix
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.name_suffix
   #
   #   - dimension: pantry_bags
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.pantry_bags
   #
   #   - dimension: parental_status
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.parental_status
   #
   #   - dimension: path_engagement
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.path_engagement
   #
   #   - dimension_group: path_engagement
@@ -809,11 +814,11 @@ view: client_assessments {
   #     sql: ${TABLE}.path_engagement_date
   #
   #   - dimension: path_not_enrolled_reason
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.path_not_enrolled_reason
   #
   #   - dimension: path_status
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.path_status
   #
   #   - dimension_group: path_status_determination
@@ -823,23 +828,23 @@ view: client_assessments {
   #     sql: ${TABLE}.path_status_determination
   #
   #   - dimension: path_status_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.path_status_is
   #
   #   - dimension: permanent_housing_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.permanent_housing_is
   #
   dimension: photo_auth {
     label: "Background - Photo Authorization"
     type: yesno
     group_label: "VI--SPDAT assessment_questions"
-    sql: fn_getPicklistValueName('photo_auth',${TABLE}.photo_auth) ;;
+    sql: ${TABLE}.photo_auth ;;
   }
 
   #
   #   - dimension: previous_foster_care
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.previous_foster_care
   #
   dimension: previous_jail {
@@ -864,18 +869,18 @@ view: client_assessments {
 
   #
   #   - dimension: prior_address_quality
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.prior_address_quality
   #
   #   - dimension: prior_city
   #     sql: ${TABLE}.prior_city
   #
   #   - dimension: prior_duration
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.prior_duration
   #
   #   - dimension: prior_residence
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.prior_residence
   #
   #   - dimension: prior_residence_other
@@ -900,7 +905,7 @@ view: client_assessments {
   #     sql: ${TABLE}.program_exit
   #
   #   - dimension: race
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.race
   #
   dimension: ref_agency {
@@ -911,7 +916,7 @@ view: client_assessments {
 
   #
   #   - dimension: ref_agency_deleted
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.ref_agency_deleted
   #
   dimension: ref_assessment {
@@ -940,201 +945,200 @@ view: client_assessments {
 
   #
   #   - dimension: rhy_bcp_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_bcp_is
   #
   #   - dimension: rhy_completion_involuntary_reason
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_completion_involuntary_reason
   #
   #   - dimension: rhy_completion_status
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_completion_status
   #
   #   - dimension: rhy_completion_voluntary_reason
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_completion_voluntary_reason
   #
   #   - dimension: rhy_crit_abuse_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_abuse_family
   #
   #   - dimension: rhy_crit_abuse_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_abuse_youth
   #
   #   - dimension: rhy_crit_disability_mental_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_disability_mental_family
   #
   #   - dimension: rhy_crit_disability_mental_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_disability_mental_youth
   #
   #   - dimension: rhy_crit_disability_physical_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_disability_physical_family
   #
   #   - dimension: rhy_crit_disability_physical_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_disability_physical_youth
   #
   #   - dimension: rhy_crit_health_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_health_family
   #
   #   - dimension: rhy_crit_health_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_health_youth
   #
   #   - dimension: rhy_crit_household
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_household
   #
   #   - dimension: rhy_crit_housing_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_housing_family
   #
   #   - dimension: rhy_crit_housing_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_housing_youth
   #
   #   - dimension: rhy_crit_identity_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_identity_family
   #
   #   - dimension: rhy_crit_identity_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_identity_youth
   #
   #   - dimension: rhy_crit_incarcerated_parent
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_incarcerated_parent
   #
   #   - dimension: rhy_crit_incarcerated_specify
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_incarcerated_specify
   #
   #   - dimension: rhy_crit_income_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_income_family
   #
   #   - dimension: rhy_crit_mental_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_mental_family
   #
   #   - dimension: rhy_crit_mental_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_mental_youth
   #
   #   - dimension: rhy_crit_military_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_military_family
   #
   #   - dimension: rhy_crit_school_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_school_family
   #
   #   - dimension: rhy_crit_school_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_school_youth
   #
   #   - dimension: rhy_crit_substance_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_substance_family
   #
   #   - dimension: rhy_crit_substance_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_substance_youth
   #
   #   - dimension: rhy_crit_unemployment_family
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_unemployment_family
   #
   #   - dimension: rhy_crit_unemployment_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_crit_unemployment_youth
   #
   #   - dimension: rhy_dental_health
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_dental_health
   #
   #   - dimension: rhy_education_level
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_education_level
   #
   #   - dimension: rhy_employment_type
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_employment_type
   #
   #   - dimension: rhy_exploitation
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_exploitation
   #
   #   - dimension: rhy_exploitation_ask
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_exploitation_ask
   #
   #   - dimension: rhy_exploitation_freq
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_exploitation_freq
   #
   #   - dimension: rhy_family_reunification
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_family_reunification
   #
   #   - dimension: rhy_former_justice
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_former_justice
   #
   #   - dimension: rhy_foster_length_months
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_foster_length_months
   #
   #   - dimension: rhy_foster_length_years
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_foster_length_years
   #
   #   - dimension: rhy_fysb_youth
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_fysb_youth
   #
   #   - dimension: rhy_justice_length_months
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_justice_length_months
   #
   #   - dimension: rhy_justice_length_years
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_justice_length_years
   #
   #   - dimension: rhy_mental_health
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_mental_health
   #
   #   - dimension: rhy_no_svc_reason
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_no_svc_reason
   #
   #   - dimension: rhy_reason_not_employed
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_reason_not_employed
   #
   #   - dimension: rhy_referral_freq_approached
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_referral_freq_approached
   #
   #   - dimension: rhy_referral_src
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_referral_src
   #
   #   - dimension: rhy_school_status
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_school_status
   #
 
   dimension: rhy_sexual_orientation {
     label: "Sexual Orientation"
-    type: number
     sql: fn_getPicklistValueName('rhy_sexual_orientation',${TABLE}.rhy_sexual_orientation) ;;
   }
 
@@ -1146,47 +1150,47 @@ view: client_assessments {
   #     sql: ${TABLE}.rhy_status_determination
   #
   #   - dimension: rhy_transition_advice
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_transition_advice
   #
   #   - dimension: rhy_transition_counseling
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_transition_counseling
   #
   #   - dimension: rhy_transition_meeting
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_transition_meeting
   #
   #   - dimension: rhy_transition_other
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_transition_other
   #
   #   - dimension: rhy_transition_package
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_transition_package
   #
   #   - dimension: rhy_transition_permanent
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_transition_permanent
   #
   #   - dimension: rhy_transition_plan
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_transition_plan
   #
   #   - dimension: rhy_transition_shelter
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_transition_shelter
   #
   #   - dimension: rhy_transition_treatment
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.rhy_transition_treatment
   #
   #   - dimension: soar_alj_attorney
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_alj_attorney
   #
   #   - dimension: soar_alj_exp_hearing
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_alj_exp_hearing
   #
   #   - dimension_group: soar_alj_hearing
@@ -1196,23 +1200,23 @@ view: client_assessments {
   #     sql: ${TABLE}.soar_alj_hearing_date
   #
   #   - dimension: soar_alj_outcome
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_alj_outcome
   #
   #   - dimension: soar_alj_review_req
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_alj_review_req
   #
   #   - dimension: soar_appeal_filed
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_appeal_filed
   #
   #   - dimension: soar_appeal_level
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_appeal_level
   #
   #   - dimension: soar_connected
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_connected
   #
   #   - dimension_group: soar_consent_faxed
@@ -1222,22 +1226,22 @@ view: client_assessments {
   #     sql: ${TABLE}.soar_consent_faxed
   #
   #   - dimension: soar_consult_exam
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_consult_exam
   #
   #   - dimension: soar_county
   #     sql: ${TABLE}.soar_county
   #
   #   - dimension: soar_decision_not_reason
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_decision_not_reason
   #
   #   - dimension: soar_decision_received
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_decision_received
   #
   #   - dimension: soar_denial_reason
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_denial_reason
   #
   #   - dimension: soar_ga_reimbursement
@@ -1245,7 +1249,7 @@ view: client_assessments {
   #     sql: ${TABLE}.soar_ga_reimbursement
   #
   #   - dimension: soar_hours
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_hours
   #
   #   - dimension_group: soar_housed
@@ -1261,19 +1265,19 @@ view: client_assessments {
   #     sql: ${TABLE}.soar_initial_decision
   #
   #   - dimension: soar_initial_outcome
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_initial_outcome
   #
   #   - dimension: soar_med_cosign
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_med_cosign
   #
   #   - dimension: soar_med_records
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_med_records
   #
   #   - dimension: soar_med_summary
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_med_summary
   #
   #   - dimension: soar_medicaid_reimbursement
@@ -1285,35 +1289,35 @@ view: client_assessments {
   #     sql: ${TABLE}.soar_medicare_reimbursement
   #
   #   - dimension: soar_not_submitted
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_not_submitted
   #
   #   - dimension: soar_not_submitted_reason
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_not_submitted_reason
   #
   #   - dimension: soar_path
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_path
   #
   #   - dimension: soar_payee_needed
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_payee_needed
   #
   #   - dimension: soar_payee_provided
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_payee_provided
   #
   #   - dimension: soar_pending_status
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_pending_status
   #
   #   - dimension: soar_quality_review
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_quality_review
   #
   #   - dimension: soar_reconsideration
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_reconsideration
   #
   #   - dimension_group: soar_reconsideration
@@ -1323,22 +1327,22 @@ view: client_assessments {
   #     sql: ${TABLE}.soar_reconsideration_date
   #
   #   - dimension: soar_reconsideration_outcome
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_reconsideration_outcome
   #
   #   - dimension: soar_region
   #     sql: ${TABLE}.soar_region
   #
   #   - dimension: soar_ssa
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_ssa
   #
   #   - dimension: soar_ssa_form
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_ssa_form
   #
   #   - dimension: soar_ssdi_approved
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_ssdi_approved
   #
   #   - dimension_group: soar_ssi_app
@@ -1348,30 +1352,30 @@ view: client_assessments {
   #     sql: ${TABLE}.soar_ssi_app
   #
   #   - dimension: soar_ssi_approved
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_ssi_approved
   #
   #   - dimension: soar_staff
   #     sql: ${TABLE}.soar_staff
   #
   #   - dimension: soar_staff_initiated
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_staff_initiated
   #
   #   - dimension: soar_staff_ssa
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_staff_ssa
   #
   #   - dimension: soar_trained
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.soar_trained
   #
   #   - dimension: ssn_quality
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.ssn_quality
   #
   #   - dimension: us_citizen
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.us_citizen
   #
 
@@ -1383,7 +1387,7 @@ view: client_assessments {
 
   #
   #   - dimension: veteran_branch
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_branch
   #
   dimension: veteran_discharge {
@@ -1394,11 +1398,11 @@ view: client_assessments {
 
   #
   #   - dimension: veteran_duration
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_duration
   #
   #   - dimension: veteran_entered
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_entered
   #
   dimension: veteran_era {
@@ -1409,55 +1413,55 @@ view: client_assessments {
 
   #
   #   - dimension: veteran_fire
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_fire
   #
   #   - dimension: veteran_separated
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_separated
   #
   #   - dimension: veteran_theater_afg
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_theater_afg
   #
   #   - dimension: veteran_theater_iraq1
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_theater_iraq1
   #
   #   - dimension: veteran_theater_iraq2
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_theater_iraq2
   #
   #   - dimension: veteran_theater_kw
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_theater_kw
   #
   #   - dimension: veteran_theater_other
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_theater_other
   #
   #   - dimension: veteran_theater_pg
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_theater_pg
   #
   #   - dimension: veteran_theater_vw
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_theater_vw
   #
   #   - dimension: veteran_theater_ww2
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_theater_ww2
   #
   #   - dimension: veteran_warzone
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_warzone
   #
   #   - dimension: veteran_warzone_duration
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_warzone_duration
   #
   #   - dimension: veteran_warzone_is
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.veteran_warzone_is
 
   #   - dimension_group: vi_f_spdat_child10_dob
@@ -1466,8 +1470,9 @@ view: client_assessments {
   #     convert_tz: false
   #     sql: ${TABLE}.vi_f_spdat_child10_dob
   #
-  #   - dimension: vi_f_spdat_child10_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child10_fullname
+   dimension: vi_f_spdat_child10_fullname {
+       sql: ${TABLE}.vi_f_spdat_child10_fullname ;;
+    }
   #
   #   - dimension_group: vi_f_spdat_child1_dob
   #     type: time
@@ -1475,17 +1480,20 @@ view: client_assessments {
   #     convert_tz: false
   #     sql: ${TABLE}.vi_f_spdat_child1_dob
   #
-  #   - dimension: vi_f_spdat_child1_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child1_fullname
-  #
+      dimension: vi_f_spdat_child1_fullname {
+        sql:  ${TABLE}.vi_f_spdat_child1_fullname ;;
+      }
+
+
   #   - dimension_group: vi_f_spdat_child2_dob
   #     type: time
   #     timeframes: [date, week, month]
   #     convert_tz: false
   #     sql: ${TABLE}.vi_f_spdat_child2_dob
   #
-  #   - dimension: vi_f_spdat_child2_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child2_fullname
+   dimension: vi_f_spdat_child2_fullname {
+       sql: ${TABLE}.vi_f_spdat_child2_fullname ;;
+      }
   #
   #   - dimension_group: vi_f_spdat_child3_dob
   #     type: time
@@ -1493,8 +1501,9 @@ view: client_assessments {
   #     convert_tz: false
   #     sql: ${TABLE}.vi_f_spdat_child3_dob
   #
-  #   - dimension: vi_f_spdat_child3_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child3_fullname
+   dimension: vi_f_spdat_child3_fullname {
+       sql: ${TABLE}.vi_f_spdat_child3_fullname ;;
+      }
   #
   #   - dimension_group: vi_f_spdat_child4_dob
   #     type: time
@@ -1502,8 +1511,9 @@ view: client_assessments {
   #     convert_tz: false
   #     sql: ${TABLE}.vi_f_spdat_child4_dob
   #
-  #   - dimension: vi_f_spdat_child4_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child4_fullname
+   dimension: vi_f_spdat_child4_fullname {
+       sql: ${TABLE}.vi_f_spdat_child4_fullname ;;
+      }
   #
   #   - dimension_group: vi_f_spdat_child5_dob
   #     type: time
@@ -1511,8 +1521,9 @@ view: client_assessments {
   #     convert_tz: false
   #     sql: ${TABLE}.vi_f_spdat_child5_dob
   #
-  #   - dimension: vi_f_spdat_child5_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child5_fullname
+   dimension: vi_f_spdat_child5_fullname {
+       sql: ${TABLE}.vi_f_spdat_child5_fullname ;;
+      }
   #
   #   - dimension_group: vi_f_spdat_child6_dob
   #     type: time
@@ -1520,8 +1531,9 @@ view: client_assessments {
   #     convert_tz: false
   #     sql: ${TABLE}.vi_f_spdat_child6_dob
   #
-  #   - dimension: vi_f_spdat_child6_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child6_fullname
+   dimension: vi_f_spdat_child6_fullname {
+       sql: ${TABLE}.vi_f_spdat_child6_fullname ;;
+      }
   #
   #   - dimension_group: vi_f_spdat_child7_dob
   #     type: time
@@ -1529,26 +1541,28 @@ view: client_assessments {
   #     convert_tz: false
   #     sql: ${TABLE}.vi_f_spdat_child7_dob
   #
-  #   - dimension: vi_f_spdat_child7_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child7_fullname
+   dimension: vi_f_spdat_child7_fullname {
+       sql: ${TABLE}.vi_f_spdat_child7_fullname ;;
+      }
   #
-  #   - dimension_group: vi_f_spdat_child8_dob
+  #    dimension_group: vi_f_spdat_child8_dob {
   #     type: time
   #     timeframes: [date, week, month]
-  #     convert_tz: false
-  #     sql: ${TABLE}.vi_f_spdat_child8_dob
-  #
-  #   - dimension: vi_f_spdat_child8_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child8_fullname
-  #
+  #     convert_tz: no
+  #     sql: ${TABLE}.vi_f_spdat_child8_dob ;;
+  #}
+   dimension: vi_f_spdat_child8_fullname {
+       sql: ${TABLE}.vi_f_spdat_child8_fullname ;;
+  }
   #   - dimension_group: vi_f_spdat_child9_dob
   #     type: time
   #     timeframes: [date, week, month]
   #     convert_tz: false
   #     sql: ${TABLE}.vi_f_spdat_child9_dob
   #
-  #   - dimension: vi_f_spdat_child9_fullname
-  #     sql: ${TABLE}.vi_f_spdat_child9_fullname
+   dimension: vi_f_spdat_child9_fullname {
+     sql: ${TABLE}.vi_f_spdat_child9_fullname ;;
+    }
   #
   dimension: vi_f_spdat_children_num {
     label: "Background - Number of Children"
@@ -1561,14 +1575,14 @@ view: client_assessments {
     label: "Background - 2nd HoH DoB"
     type: date
     group_label: "VI-FSPDAT assessment_questions"
-    #X# Invalid LookML inside "dimension": {"timeframes":["date","week","month"]}
     convert_tz: no
     sql: ${TABLE}.vi_f_spdat_hh2_dob ;;
   }
 
   #
-  #   - dimension: vi_f_spdat_hh2_fullname
-  #     sql: ${TABLE}.vi_f_spdat_hh2_fullname
+   dimension: vi_f_spdat_hh2_fullname {
+       sql: ${TABLE}.vi_f_spdat_hh2_fullname ;;
+      }
   #
   dimension: vi_f_spdat_hh2_gender {
     label: "Background - 2nd HoH Gender"
@@ -1640,7 +1654,7 @@ view: client_assessments {
     type: date
     label: "Child  9 DoB"
     group_label: "VI-FSPDAT assessment_questions"
-    sql: ${TABLE}.vi_f_spdat_child8_dob ;;
+    sql: ${TABLE}.vi_f_spdat_child9_dob ;;
   }
 
   dimension: vi_f_spdat_child10_dob {
@@ -1738,7 +1752,7 @@ view: client_assessments {
     label: "Insurance - Medicaid"
     type: yesno
     group_label: "VI--SPDAT assessment_questions"
-    sql: fn_getPicklistValueName('benefits_medicaid',${TABLE}.benefits_medicaid) ;;
+    sql: ${TABLE}.benefits_medicaid ;;
   }
 
   dimension: previous_foster_care {
@@ -1882,43 +1896,43 @@ view: client_assessments {
 
   #
   #   - dimension: vi_f_spdat_q41
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q41
   #
   #   - dimension: vi_f_spdat_q50
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q50
   #
   #   - dimension: vi_f_spdat_q53
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q53
   #
   #   - dimension: vi_f_spdat_q54
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q54
   #
   #   - dimension: vi_f_spdat_q55
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q55
   #
   #   - dimension: vi_f_spdat_q56
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q56
   #
   #   - dimension: vi_f_spdat_q57
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q57
   #
   #   - dimension: vi_f_spdat_q58
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q58
   #
   #   - dimension: vi_f_spdat_q59
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q59
   #
   #   - dimension: vi_f_spdat_q60
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_f_spdat_q60
   #
   dimension: vi_f_spdat_second_hoh {
@@ -1972,7 +1986,7 @@ view: client_assessments {
 
   #
   #   - dimension: vi_spdat_q13
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q13
   #
   dimension: vi_spdat_q14 {
@@ -1990,7 +2004,7 @@ view: client_assessments {
 
   #
   #   - dimension: vi_spdat_q16
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q16
   #
   dimension: vi_spdat_q17 {
@@ -2001,11 +2015,11 @@ view: client_assessments {
 
   #
   #   - dimension: vi_spdat_q18
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q18
   #
   #   - dimension: vi_spdat_q19
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q19
   #
   dimension: vi_spdat_q2 {
@@ -2016,43 +2030,43 @@ view: client_assessments {
 
   #
   #   - dimension: vi_spdat_q20
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q20
   #
   #   - dimension: vi_spdat_q21
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q21
   #
   #   - dimension: vi_spdat_q22
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q22
   #
   #   - dimension: vi_spdat_q23
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q23
   #
   #   - dimension: vi_spdat_q24
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q24
   #
   #   - dimension: vi_spdat_q25
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q25
   #
   #   - dimension: vi_spdat_q26
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q26
   #
   #   - dimension: vi_spdat_q27
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q27
   #
   #   - dimension: vi_spdat_q28
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q28
   #
   #   - dimension: vi_spdat_q29
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q29
   #
   dimension: vi_spdat_q3 {
@@ -2063,43 +2077,43 @@ view: client_assessments {
 
   #
   #   - dimension: vi_spdat_q30
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q30
   #
   #   - dimension: vi_spdat_q31
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q31
   #
   #   - dimension: vi_spdat_q32
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q32
   #
   #   - dimension: vi_spdat_q33
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q33
   #
   #   - dimension: vi_spdat_q34
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q34
   #
   #   - dimension: vi_spdat_q35
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q35
   #
   #   - dimension: vi_spdat_q36
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q36
   #
   #   - dimension: vi_spdat_q37
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q37
   #
   #   - dimension: vi_spdat_q38
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q38
   #
   #   - dimension: vi_spdat_q39
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q39
   #
   dimension: vi_spdat_q4 {
@@ -2110,39 +2124,39 @@ view: client_assessments {
 
   #
   #   - dimension: vi_spdat_q40
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q40
   #
   #   - dimension: vi_spdat_q41
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q41
   #
   #   - dimension: vi_spdat_q42
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q42
   #
   #   - dimension: vi_spdat_q43
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q43
   #
   #   - dimension: vi_spdat_q44
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q44
   #
   #   - dimension: vi_spdat_q45
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q45
   #
   #   - dimension: vi_spdat_q46
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q46
   #
   #   - dimension: vi_spdat_q47
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q47
   #
   #   - dimension: vi_spdat_q48
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q48
   #
   dimension: vi_spdat_q49 {
@@ -2181,11 +2195,11 @@ view: client_assessments {
 
   #
   #   - dimension: vi_spdat_q8
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q8
   #
   #   - dimension: vi_spdat_q9
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.vi_spdat_q9
 
   #   - dimension: zipcode
@@ -2193,7 +2207,7 @@ view: client_assessments {
   #     sql: ${TABLE}.zipcode
   #
   #   - dimension: zipcode_quality
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.zipcode_quality
 
 
@@ -2319,7 +2333,7 @@ view: client_assessments {
 
   measure: percent_with_income {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     group_label: "Income Sources and Amounts"
     sql: 100.0 * ${count_with_income} / NULLIF(${count_asked_about_income},0) ;;
   }
@@ -2467,7 +2481,7 @@ view: client_assessments {
     label: "Income: Total Unemployment Income"
     # can be average, sum, min, max, count, count_distinct, or number
     type: sum
-    format: "$%0.0f"
+    value_format_name: percent_1
     sql: ${income_unemployment} ;;
   }
 
@@ -2515,7 +2529,7 @@ view: client_assessments {
     label: "Income: Total Unemployment Income"
     # can be average, sum, min, max, count, count_distinct, or number
     type: sum
-    format: "$%0.0f"
+    value_format_name: percent_1
     sql: ${income_workers_comp} ;;
   }
 
@@ -2614,7 +2628,7 @@ view: client_assessments {
   }
 
   #- dimension: health_chronic_documented
-  #  type: number
+  #  type:number
   #  sql: ${TABLE}.health_chronic_documented
 
   dimension: health_chronic_longterm {
@@ -2638,7 +2652,18 @@ view: client_assessments {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      id
+      id,
+      vi_f_spdat_child1_fullname,
+      vi_f_spdat_child8_fullname,
+      vi_f_spdat_child9_fullname,
+      vi_f_spdat_child10_fullname,
+      vi_f_spdat_hh2_fullname,
+      vi_f_spdat_child7_fullname,
+      vi_f_spdat_child2_fullname,
+      vi_f_spdat_child3_fullname,
+      vi_f_spdat_child4_fullname,
+      vi_f_spdat_child5_fullname,
+      vi_f_spdat_child6_fullname
     ]
   }
 }

@@ -1,81 +1,80 @@
-
 include: "service_items_housing.view.lkml"
 include: "agency_services.view.lkml"
-include: "agencies.view.lkml"
 include: "department.view.lkml"
 include: "department_user.view.lkml"
 include: "screens.view.lkml"
 include: "programs.view.lkml"
+include: "agencies.view.lkml"
+include: "client_program_screening_base.view.lkml"
 include: "program_openings.view.lkml"
-include: "agencies.view.lkml"
 include: "client_assessment_scores.view.lkml"
-include: "client_assessment_custom.view.lkml"
-include: "client_assessment_data.view.lkml"
-include: "client_assessment_demographics.view.lkml"
-include: "funding.view.lkml"
-include: "release_of_information.view.lkml"
 include: "agencies.view.lkml"
+include: "client_custom.view.lkml"
+include: "client_demographics.view.lkml"
+include: "clients.view.lkml"
 include: "client_custom.view.lkml"
 include: "client_demographics.view.lkml"
 include: "clients.view.lkml"
 include: "agencies.view.lkml"
 include: "client_custom.view.lkml"
+include: "client_demographics.view.lkml"
 include: "client_notes.view.lkml"
-include: "client_program_screening_base.view.lkml"
-include: "client_programs.view.lkml"
+include: "clients.view.lkml"
+include: "client_addresses.view.lkml"
 include: "entry_screen.view.lkml"
 include: "household_entry_screen.view.lkml"
 include: "entry_custom.view.lkml"
 include: "last_screen.view.lkml"
 include: "last_custom.view.lkml"
 include: "outbound_recidivism.view.lkml"
+include: "client_programs.view.lkml"
 include: "client_last_program.view.lkml"
-include: "program_funding_sources.view.lkml"
-include: "program_inventory.view.lkml"
-include: "program_templates.view.lkml"
-include: "client_program_staff.view.lkml"
-include: "counties.view.lkml"
-include: "members.view.lkml"
-include: "household.view.lkml"
-include: "client_services.view.lkml"
-include: "client_addresses.view.lkml"
-include: "client_service_programs.view.lkml"
-include: "service_items.view.lkml"
-include: "services.view.lkml"
-include: "client_service_notes.view.lkml"
+include: "agency_assessments.view.lkml"
+include: "client_assessment_custom.view.lkml"
+include: "client_assessment_demographics.view.lkml"
+include: "client_field_interactions.view.lkml"
+include: "client_first_program.view.lkml"
+include: "client_first_system_enrollment.view.lkml"
+include: "client_group_members.view.lkml"
+include: "client_last_assessment.view.lkml"
+include: "client_last_system_program_enrollment.view.lkml"
 include: "client_program_goals.view.lkml"
+include: "client_program_staff.view.lkml"
+include: "client_service_notes.view.lkml"
+include: "client_service_programs.view.lkml"
+include: "client_services.view.lkml"
+include: "sharing_group.view.lkml"
+include: "counties.view.lkml"
+include: "fields.view.lkml"
+include: "members.view.lkml"
+include: "users.view.lkml"
+include: "program_openings_history.view.lkml"
+include: "funding.view.lkml"
 include: "goals.view.lkml"
+include: "household.view.lkml"
+include: "_logs.view.lkml"
+include: "services.view.lkml"
+include: "sites.view.lkml"
+include: "program_funding_sources.view.lkml"
+include: "program_templates.view.lkml"
+include: "program_inventory.view.lkml"
+include: "service_items.view.lkml"
 include: "client_service_expenses.view.lkml"
 include: "client_service_dates.view.lkml"
 include: "client_service_time_tracking.view.lkml"
-include: "client_last_assessment.view.lkml"
 include: "population.view.lkml"
-include: "referral_history.view.lkml"
-include: "referral_connections.view.lkml"
-include: "referral_notes.view.lkml"
+include: "release_of_information.view.lkml"
 include: "referrals.view.lkml"
-include: "agency_assessments.view.lkml"
-include: "agency_services.view.lkml"
-include: "fields.view.lkml"
-include: "household.view.lkml"
-include: "client_program_screening_base.view.lkml"
-include: "outbound_recidivism.view.lkml"
-include: "inbound_recidivism.view.lkml"
-include: "last_screen.view.lkml"
-include: "dates.view.lkml"
-include: "users.view.lkml"
-include: "user_agencies.view.lkml"
-include: "user_groups.view.lkml"
+include: "referral_history.view.lkml"
 include: "program_services.view.lkml"
+include: "user_groups.view.lkml"
 include: "program_scoring_eligibility.view.lkml"
-include: "sharing_group.view.lkml"
 include: "sharing_group_agency.view.lkml"
-include: "sites.view.lkml"
-include: "_logs.view.lkml"
 include: "program_sites.view.lkml"
+include: "user_agencies.view.lkml"
 include: "screen_fields.view.lkml"
-
-
+include: "client_program_endpoint_mapping.view.lkml"
+include: "inbound_recidivism.view.lkml"
 
 
 explore: base {
@@ -90,18 +89,26 @@ explore: base {
     }
   }
 
-  access_filter_fields: [agencies.id, agencies.coc, agencies.county]
+  access_filter:{field: agencies.id
+   user_attribute: agency_id }
+  access_filter:{field:agencies.coc
+    user_attribute: agency_coc }
+  access_filter:{field: agencies.county
+    user_attribute: agency_county}
+
   always_join: [clients]
   sql_always_where: clients.deleted is NULL or clients.deleted =0 ;;
 
   join: entry_screen {
     sql_on: ${base.first_entry_screen_id} = ${entry_screen.id} ;;
+    relationship: many_to_one
     type: inner
     #X# sql_always_where:"ref_agency = 0"
   }
 
   join: household_entry_screen {
     view_label: "Entry Screen"
+    relationship: many_to_one
     type: inner
     sql_on: ${enrollments.ref_household} =  ${household_entry_screen.household_id} ;;
   }
@@ -137,6 +144,21 @@ explore: base {
   join: client_last_program {
     fields: []
     sql_on: ${client_last_program.id} = ${enrollments.id} ;;
+  }
+
+  join: client_last_system_program_enrollment {
+    fields: []
+    sql_on: ${client_last_system_program_enrollment.id} = ${enrollments.id} ;;
+  }
+
+  join: client_first_program {
+    fields: []
+    sql_on: ${client_first_program.id} = ${enrollments.id} ;;
+  }
+
+  join: client_first_system_enrollment {
+    fields: []
+    sql_on: ${client_first_system_enrollment.id} = ${enrollments.id} ;;
   }
 
   join: client_program_staff {
@@ -203,14 +225,26 @@ explore: base {
     sql_on: ${base.ref_client} = ${clients.id} ;;
   }
 
+  join: client_group_members {
+    view_label: "Clients"
+    sql_on: ${clients.id} = ${client_group_members.ref_client} and ${client_group_members.end_date} is NULL ;;
+  }
+
   join: client_addresses {
     sql_on: ${base.ref_client} = ${client_addresses.ref_client}  and ${client_addresses.deleted} is null ;;
   }
 
+  join: client_field_interactions {
+    sql_on: ${base.ref_client} = ${client_field_interactions.ref_client} ;;
+  }
+
   join: client_notes {
     from: client_notes
-    sql_on: ${clients.id} = ${client_notes.ref_client} and ( ${client_notes.deleted} is null OR ${client_notes.deleted} =0 ) ;;
+    sql_on: ${client_notes.ref_client_program_id} = ${base.ref_program} and ( ${client_notes.deleted} is null OR ${client_notes.deleted} =0 ) ;;
   }
+
+  # sql_on: ${clients.id} = ${client_notes.ref_client} and ( ${client_notes.deleted} is null OR ${client_notes.deleted} =0 )
+
 
   join: static_demographics {
     from: client_demographics
@@ -226,6 +260,11 @@ explore: base {
       ref_client,
       race,
       race_text,
+      race_1_text,
+      race_2_text,
+      race_3_text,
+      race_4_text,
+      race_5_text,
       veteran,
       veteran_text,
       veteran_branch,
@@ -345,7 +384,12 @@ explore: base {
 
 explore: population {
   label: "HMIS Population over Time"
-  access_filter_fields: [agencies.id, agencies.coc, agencies.county]
+  access_filter:{field: agencies.id
+    user_attribute: agency_id }
+  access_filter:{field:agencies.coc
+    user_attribute: agency_coc }
+  access_filter:{field: agencies.county
+    user_attribute: agency_county}
   always_join: [clients]
   sql_always_where: clients.deleted is NULL or clients.deleted =0 ;;
 
@@ -354,15 +398,11 @@ explore: population {
     type: left_outer
   }
 
-  join: household_entry_screen {
-    view_label: "Entry Screen"
-    type: inner
-    sql_on: ${enrollments.ref_household} =  ${household_entry_screen.household_id} ;;
+  join: inbound_recidivism {
+    fields: []
+    sql_on: ${entry_screen.id} = ${inbound_recidivism.screen_id} ;;
   }
 
-  # #     - join: inbound_recidivism
-  # #       sql_on: ${entry_screen.id} = ${inbound_recidivism.screen_id}
-  #
   join: last_screen {
     sql_on: ${population.last_screening_to_analyze} = ${last_screen.id} ;;
     type: left_outer
@@ -373,11 +413,25 @@ explore: population {
   # #       sql_on: ${last_screen.id} = ${outbound_recidivism.screen_id}
   #
   join: enrollments {
+    fields: [
+      id,
+      date_filter,
+      end_date,
+      start_date,
+      ref_client_group,
+      head_of_household,
+      ref_household,
+      days_since_start,
+      days_since_start_tier,
+      average_duration,
+      still_in_program,
+      is_first_enrollment,
+      is_latest_enrollment,
+      is_first_system_enrollment,
+      is_latest_system_enrollment,
+      count
+    ]
     sql_on: ${population.ref_program} = ${enrollments.id} ;;
-  }
-
-  join: household_makeup {
-    sql_on: ${enrollments.ref_household} = ${household_makeup.id} ;;
   }
 
   join: client_last_program {
@@ -385,14 +439,19 @@ explore: population {
     sql_on: ${client_last_program.id} = ${enrollments.id} ;;
   }
 
-  join: client_program_staff {
+  join: client_last_system_program_enrollment {
     fields: []
-    sql_on: ${client_program_staff.ref_client_program} = ${enrollments.id} ;;
+    sql_on: ${client_last_system_program_enrollment.id} = ${enrollments.id} ;;
   }
 
-  join: members {
+  join: client_first_program {
     fields: []
-    sql_on: ${client_program_staff.ref_user} = ${members.ref_user} ;;
+    sql_on: ${client_first_program.id} = ${enrollments.id} ;;
+  }
+
+  join: client_first_system_enrollment {
+    fields: []
+    sql_on: ${client_first_system_enrollment.id} = ${enrollments.id} ;;
   }
 
   #
@@ -460,7 +519,12 @@ explore: population {
 explore: clients {
   persist_for: "60 minutes"
   label: "Services Model"
-  access_filter_fields: [agencies.id, agencies.coc, agencies.county]
+  access_filter:{field: agencies.id
+    user_attribute: agency_id }
+  access_filter:{field:agencies.coc
+    user_attribute: agency_coc }
+  access_filter:{field: agencies.county
+    user_attribute: agency_county}
 
   join: static_demographics {
     from: client_demographics
@@ -560,7 +624,6 @@ explore: clients {
     sql_on: ${client_assessments.id} = ${client_last_assessment.id} ;;
   }
 
-
   join: client_assessment_scores {
     fields: []
     sql_on: ${client_assessments.id} = ${client_assessment_scores.ref_assessment} ;;
@@ -610,7 +673,12 @@ explore: client {
   from: clients
   persist_for: "60 minutes"
   label: "Coordinated Entry"
-  access_filter_fields: [agencies.id, agencies.coc, agencies.county]
+  access_filter:{field: agencies.id
+    user_attribute: agency_id }
+  access_filter:{field:agencies.coc
+    user_attribute: agency_coc }
+  access_filter:{field: agencies.county
+    user_attribute: agency_county}
   sql_always_where: client.deleted is NULL or client.deleted =0 ;;
 
   join: client_addresses {
@@ -629,7 +697,8 @@ explore: client {
       race,
       race_text,
       veteran,
-      veteran_text
+      veteran_text,
+      veteran_discharge
     ]
     sql_on: ${client.id} = ${static_demographics.ref_client} ;;
   }
@@ -712,7 +781,6 @@ explore: client {
   }
 
   join: referto_agencies {
-    type: inner
     view_label: "Referto Program"
     from: agencies
     fields: [name, agency_id]
@@ -722,6 +790,11 @@ explore: client {
   join: referto_program_openings {
     from: program_openings
     sql_on: ${referto_program_openings.id} = ${referrals.ref_opening} ;;
+  }
+
+  join: program_openings_history {
+    view_label: "Program Opening History (Beta)"
+    sql_on: ${program_openings_history.ref_program} = ${referto_program.id} ;;
   }
 
   join: enrollments {
@@ -737,6 +810,10 @@ explore: client {
       days_since_start_tier,
       average_duration,
       still_in_program,
+      is_latest_enrollment,
+      is_latest_system_enrollment,
+      is_first_enrollment,
+      is_first_system_enrollment,
       count
     ]
     #this was added to prevent non admins from getting enrollments
@@ -747,6 +824,58 @@ explore: client {
     fields: []
     sql_on: ${client_last_program.id} = ${enrollments.id} ;;
   }
+
+  join: client_last_system_program_enrollment {
+    fields: []
+    sql_on: ${client_last_system_program_enrollment.id} = ${enrollments.id} ;;
+  }
+
+  join: client_first_program {
+    fields: []
+    sql_on: ${client_first_program.id} = ${enrollments.id} ;;
+  }
+
+  join: client_first_system_enrollment {
+    fields: []
+    sql_on: ${client_first_system_enrollment.id} = ${enrollments.id} ;;
+  }
+
+  join: base {
+    from: client_program_screening_base
+    fields: []
+    sql_on: ${base.ref_program} = ${enrollments.id} ;;
+  }
+
+  join: entry_screen {
+    view_label: "Entry Screen (Beta)"
+    sql_on: ${base.first_entry_screen_id} = ${entry_screen.id} ;;
+    type: inner
+  }
+
+  join: household_entry_screen {
+    view_label: "Entry Screen (Beta)"
+    type: inner
+    sql_on: ${enrollments.ref_household} =  ${household_entry_screen.household_id} ;;
+  }
+
+  #     - join: entry_custom
+  #       type: inner
+  #       fields: [entry_custom_fields*]
+  #       sql_on: ${entry_custom.ref_client_program_demographics} = ${entry_screen.id}
+  #
+  #     - join: last_screen
+  #       sql_on: ${base.last_screening_to_analyze} = ${last_screen.id}
+  #       type: left_outer
+  #
+  #     - join: last_custom
+  #       type: left_outer
+  #       view_label: 'Update/Exit Custom'
+  #       fields: [last_custom_fields*]
+  #       sql_on: ${last_screen.id} = ${last_custom.ref_client_program_demographics}
+
+
+
+
 
   join: members {
     fields: []
@@ -770,11 +899,29 @@ explore: client {
     ]
     sql_on: ${enrollments.ref_program} = ${programs.id} ;;
   }
+
+  join: enrollment_agencies {
+    from: agencies
+    fields: [
+      agency_id,
+      coc,
+      name,
+      status,
+      zip,
+      count
+    ]
+    sql_on: ${enrollment_agencies.id} = ${programs.ref_agency} ;;
+  }
 }
 
 explore: agencies {
   label: "Project Descriptor Model"
-  access_filter_fields: [agencies.id, agencies.coc, agencies.county]
+  access_filter:{field: agencies.id
+    user_attribute: agency_id }
+  access_filter:{field:agencies.coc
+    user_attribute: agency_coc }
+  access_filter:{field: agencies.county
+    user_attribute: agency_county}
   sql_always_where: agencies.status = 1 ;;
 
   join: counties {
@@ -809,6 +956,12 @@ explore: agencies {
 
   join: program_openings {
     sql_on: ${program_openings.ref_program} = ${programs.id} ;;
+  }
+
+  join: program_openings_history {
+    view_label: "Program Opening History (Beta)"
+    fields: [first_posted, last_posted, first_reserved, last_reserved]
+    sql_on: ${program_openings_history.ref_program} = ${programs.id} ;;
   }
 
   join: funding {
@@ -881,7 +1034,7 @@ explore: agencies {
   }
 
   join: member_additional_agencies {
-    #X# Invalid LookML inside "join": {"field":["name","county","id","coc"]}
+    fields: [name, county, id, coc]
     from: agencies
     sql_on: ${user_agencies.ref_agency} = ${member_additional_agencies.id} ;;
   }
