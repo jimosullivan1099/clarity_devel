@@ -1,22 +1,21 @@
-include: "entry_screen.view.lkml"
 view: enrollments {
   sql_table_name: client_programs
     ;;
 
   dimension: id {
-    label: "Project Entry Id"
+    label: "Enrollment Id"
     description: "(HMIS Data Element 5.6)"
     primary_key: yes
     type: number
 
     link: {
       label: "Clarity Program Enrollment"
-      url: "https://{{ _access_filters[\"site.name\"]] }}.clarityhs.com/clients/{{ clients.id._value }}/programs/{{ value }}"
+      url: "https://{{ _access_filters[\"site.name\"]] }}.clarityhs.com/clients/{{enrollments.ref_client._value}}/programs/{{ value }}"
     }
 
     link: {
       label: "Clarity Profile"
-      url: "https://{{ _access_filters[\"site.name\"]] }}.clarityhs.com/clients/{{ clients.id._value }}/profile"
+      url: "https://{{ _access_filters[\"site.name\"]] }}.clarityhs.com/clients/{{enrollments.ref_client._value}}/profile"
     }
 
     sql: ${TABLE}.id ;;
@@ -24,7 +23,7 @@ view: enrollments {
 
   filter: date_filter {
     label: "Reporting Period Filter"
-    description: "(Exit Date is >= beginning date of the period filter or is null) AND Start Date is <= ending date of the period filter. Requires two \"dates\" to set the filter"
+    description: "([Project Exit Date] >= Reporting Period Filter start date OR is null) AND [Project Start Date] <= Reporting Period Filter end date. Requires two \"dates\" to set the filter"
     type: date
     sql: ${start_raw} < {% date_end date_filter %}
       AND (${end_raw} >= {% date_start date_filter %} OR ${end_raw} is NULL)
@@ -32,10 +31,35 @@ view: enrollments {
   }
 
   dimension: is_latest_enrollment {
-    label: "Is Latest Enrollment"
+    group_label: "First/Last"
+    label: "Is Latest Program Enrollment"
     type: yesno
-    description: "This is the latest enrollment into this project (based on entry date)"
+    description: "This is the latest enrollment into this project (based on [Project Start Date])"
     sql: ${id} = ${client_last_program.id} ;;
+  }
+
+  dimension: is_latest_system_enrollment {
+    group_label: "First/Last"
+    label: "Is Latest System Enrollment"
+    type: yesno
+    description: "This is the latest enrollment system wide (based on entry date)"
+    sql: ${id} = ${client_last_system_program_enrollment.id} ;;
+  }
+
+  dimension: is_first_enrollment {
+    group_label: "First/Last"
+    label: "Is First Program Enrollment"
+    type: yesno
+    description: "This is the first enrollment into this project (based on [Project Start Date])"
+    sql: ${id} = ${client_first_program.id} ;;
+  }
+
+  dimension: is_first_system_enrollment {
+    group_label: "First/Last"
+    label: "Is First System Enrollment"
+    type: yesno
+    description: "This is the first enrollment system wide (based on entry date)"
+    sql: ${id} = ${client_first_system_enrollment.id} ;;
   }
 
   dimension_group: added {
@@ -47,10 +71,17 @@ view: enrollments {
   }
 
   dimension_group: end {
-    label: "Exit"
+    label: "Project Exit"
     description: "Project Exit Date (HMIS Data Element 3.11)"
     type: time
-    timeframes: [date, week, month, year, raw]
+    timeframes: [
+      date,
+      week,
+      month,
+      year,
+      raw,
+      quarter
+    ]
     convert_tz: no
     sql: ${TABLE}.end_date ;;
   }
@@ -128,6 +159,21 @@ view: enrollments {
     }
   }
 
+  measure: count_chronic_homeless_households {
+    description: "Number of households where head of household is chronically homeless"
+    type: count_distinct
+    sql: ${ref_client} ;;
+
+    filters: {
+      field: head_of_household
+      value: "yes"
+    }
+
+    filters: {
+      field: entry_screen.chronic_homeless_calculation
+      value: "Yes"
+    }
+  }
 
   dimension: ref_household {
     label: "Household Id"
@@ -161,17 +207,24 @@ view: enrollments {
   }
 
   dimension_group: start {
-    label: "Entry"
-    description: "Project Entry Date (HMIS Data Element 3.10)"
+    label: "Project Start"
+    description: "Project Start (HMIS Data Element 3.10)"
     type: time
-    timeframes: [date, week, month, year, raw]
+    timeframes: [
+      date,
+      week,
+      month,
+      year,
+      raw,
+      quarter
+    ]
     convert_tz: no
     sql: ${TABLE}.start_date ;;
   }
 
   dimension: days_since_start {
     label: "Days in Project"
-    description: "Number of days between project entry and project exit. If not exited, current date"
+    description: "Number of days between [Project Start] and [Project Exit]. If not exited, current date"
     bypass_suggest_restrictions: yes
     #X# Invalid LookML inside "dimension": {"suggest_dimension":null}
     type: number
@@ -180,7 +233,7 @@ view: enrollments {
 
   dimension: days_since_start_tier {
     label: "Days in Project Tier"
-    description: "Tiers: Number of days between project entry and project exit. If not exited, current date"
+    description: "Tiers: Number of days between [Project Start] and [Project Exit]. If not exited, current date"
     type: tier
     style: integer
     tiers: [
@@ -213,7 +266,7 @@ view: enrollments {
 
   measure: average_duration {
     label: "Average Days in Project"
-    description: "Average: Number of days between project entry and project exit. If not exited, current date"
+    description: "Average: Number of days between [Project Start] and [Project Exit]. If not exited, current date"
     type: average
     sql: ${days_since_start} ;;
   }
@@ -231,8 +284,8 @@ view: enrollments {
   }
 
   measure: last_entry {
-    label: "Last Entry"
-    description: "Latest (maximum) entry date"
+    label: "Last Project Start"
+    description: "Latest (maximum) [Project Start Date]"
     type: date
     sql: MAX(${start_date}) ;;
   }

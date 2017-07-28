@@ -20,5 +20,7 @@ view: dates {
     sql: ${TABLE}.date ;;
   }
 
-
+  set: detail {
+    fields: [ref_date]
+  }
 }

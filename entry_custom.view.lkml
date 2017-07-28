@@ -1124,6 +1124,7 @@ view: entry_custom {
   }
 
   dimension: smoker {
+    hidden: yes
     type: number
     sql: ${TABLE}.smoker ;;
   }

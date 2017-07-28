@@ -247,10 +247,9 @@ view: programs {
         label: "Inactive"
       }
 
-      else: "Unknown"
-      }
+      else: ""
     }
-
+  }
 
   dimension: tracking_method {
     description: "For Emergency Shelter Projects, how stays are tracked (HMIS Data Element 2.5.1)"
@@ -269,6 +268,6 @@ view: programs {
 
   # ----- Sets of fields for drilling ------
   set: detail {
-    fields: [id, name]
+    fields: [id, name, sites.name, sites.id]
   }
 }

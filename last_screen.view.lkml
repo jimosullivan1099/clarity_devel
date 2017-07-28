@@ -51,13 +51,15 @@ view: last_screen {
   }
 
   dimension: benefits_other {
-    hidden: yes
+    label: "Other Health Insurance"
     type: number
+    group_label: "Health Insurance"
     sql: ${TABLE}.benefits_other ;;
   }
 
   dimension: benefits_other_source {
-    hidden: yes
+    label: "Other Health Insurance Source"
+    group_label: "Health Insurance"
     sql: ${TABLE}.benefits_other_source ;;
   }
 
@@ -561,15 +563,18 @@ view: last_screen {
     }
   }
 
+  # - measure: percent_stably_housed
+  #   hidden: true
+  #   type: number
+  #   format: '%0.1f%'
+  #   sql: 100.0 * ${count_stably_housed} / NULLIF(${count_asked_about_housing},0)
 
   dimension: income_cash {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_cash ;;
   }
 
   dimension: income_cash_is {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_cash_is ;;
   }
@@ -610,7 +615,6 @@ view: last_screen {
   dimension: income_earned {
     label: "Income: Earned Income Amount"
     type: number
-    hidden: yes
     sql: ${TABLE}.income_earned ;;
   }
 
@@ -629,7 +633,7 @@ view: last_screen {
     type: average
     value_format_name: usd
     group_label: "Income Sources and Amounts"
-    drill_fields: [detail*]
+  #  drill_fields: [detail*]
     sql: ${income_earned} ;;
   }
 
@@ -640,7 +644,7 @@ view: last_screen {
     value_format_name: usd
     group_label: "Income Sources and Amounts"
     sql: ${income_earned} ;;
-    drill_fields: [detail*]
+  #  drill_fields: [detail*]
   }
 
   measure: count_with_income {
@@ -668,7 +672,7 @@ view: last_screen {
 
   measure: percent_with_income {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     group_label: "Income Sources and Amounts"
     sql: 100.0 * ${count_with_income} / NULLIF(${count_asked_about_income},0) ;;
   }
@@ -744,7 +748,6 @@ view: last_screen {
 
   dimension: income_private_disability {
     label: "Income: Private Disability Insurance"
-    hidden: yes
     type: number
     sql: ${TABLE}.income_private_disability ;;
   }
@@ -757,7 +760,6 @@ view: last_screen {
   }
 
   dimension: income_private_pension {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_private_pension ;;
   }
@@ -770,7 +772,6 @@ view: last_screen {
   }
 
   dimension: income_spousal_support {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_spousal_support ;;
   }
@@ -783,7 +784,6 @@ view: last_screen {
   }
 
   dimension: income_ss_retirement {
-    hidden: yes
     type: number
     group_label: "Income Sources and Amounts"
     sql: ${TABLE}.income_ss_retirement ;;
@@ -797,7 +797,6 @@ view: last_screen {
   }
 
   dimension: income_ssdi {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_ssdi ;;
   }
@@ -809,7 +808,6 @@ view: last_screen {
   }
 
   dimension: income_ssi {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_ssi ;;
   }
@@ -822,7 +820,6 @@ view: last_screen {
   }
 
   dimension: income_tanf {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_tanf ;;
   }
@@ -835,14 +832,12 @@ view: last_screen {
   }
 
   dimension: income_unemployment {
-    hidden: yes
     label: "Income: Unemployment Amount"
     type: number
     sql: ${TABLE}.income_unemployment ;;
   }
 
   measure: total_unemployment_income {
-    hidden: yes
     label: "Income: Total Unemployment Income"
     # can be average, sum, min, max, count, count_distinct, or number
     type: sum
@@ -858,7 +853,6 @@ view: last_screen {
   }
 
   dimension: income_vet_disability {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_vet_disability ;;
   }
@@ -871,7 +865,6 @@ view: last_screen {
   }
 
   dimension: income_vet_pension {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_vet_pension ;;
   }
@@ -884,17 +877,15 @@ view: last_screen {
   }
 
   dimension: income_workers_comp {
-    hidden: yes
     type: number
     sql: ${TABLE}.income_workers_comp ;;
   }
 
   measure: total_workers_comp_income {
-    hidden: yes
     label: "Income: Total Unemployment Income"
     # can be average, sum, min, max, count, count_distinct, or number
     type: sum
-    format: "$%0.0f"
+    value_format_name: percent_1
     sql: ${income_workers_comp} ;;
   }
 
@@ -1065,13 +1056,9 @@ view: last_screen {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
+  #  drill_fields: [detail*]
   }
 
   # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id
-    ]
-  }
+
 }

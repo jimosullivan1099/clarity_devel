@@ -67,15 +67,16 @@ view: client_notes {
     sql: ${TABLE}.ref_client ;;
   }
 
+  dimension: ref_client_program_id {
+    hidden: yes
+    sql: ${TABLE}.ref_client_program ;;
+  }
+
   dimension: ref_client_program {
     label: "Program"
     sql: (Select name from programs where id = (select ref_program from client_programs where id = ${TABLE}.ref_client_program))
       ;;
   }
-
-  #   type: string
-  #   sql: fn_getProgramNameByProgramId(${TABLE}.ref_client_program)
-  #sql: ${TABLE}.ref_client_program
 
   dimension: ref_user {
     label: "Staff"

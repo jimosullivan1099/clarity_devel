@@ -14,7 +14,6 @@ view: client_demographics {
 
   dimension: ethnicity_text {
     label: "Ethnicity"
-    #X# suggest:true
     bypass_suggest_restrictions: yes
     sql: fn_getPicklistValueName('ethnicity',${ethnicity}) ;;
   }
@@ -56,6 +55,81 @@ view: client_demographics {
     label: "Race"
     bypass_suggest_restrictions: yes
     sql: fn_getRaceStringByRaceCode(${TABLE}.race) ;;
+  }
+
+  dimension: race_1_text {
+    group_label: "Race - Multiple"
+    label: "American Indian or Alaskan Native"
+    bypass_suggest_restrictions: yes
+
+    case: {
+      when: {
+        sql: ${TABLE}.race like '%1%' ;;
+        label: "Yes"
+      }
+
+      else: "No"
+    }
+  }
+
+  dimension: race_2_text {
+    group_label: "Race - Multiple"
+    label: "Asian"
+    bypass_suggest_restrictions: yes
+
+    case: {
+      when: {
+        sql: ${TABLE}.race like '%2%' ;;
+        label: "Yes"
+      }
+
+      else: "No"
+    }
+  }
+
+  dimension: race_3_text {
+    group_label: "Race - Multiple"
+    label: "Black or African American"
+    bypass_suggest_restrictions: yes
+
+    case: {
+      when: {
+        sql: ${TABLE}.race like '%3%' ;;
+        label: "Yes"
+      }
+
+      else: "No"
+    }
+  }
+
+  dimension: race_4_text {
+    group_label: "Race - Multiple"
+    label: "Native Hawaiian or Other Pacific Islander"
+    bypass_suggest_restrictions: yes
+
+    case: {
+      when: {
+        sql: ${TABLE}.race like '%4%' ;;
+        label: "Yes"
+      }
+
+      else: "No"
+    }
+  }
+
+  dimension: race_5_text {
+    group_label: "Race - Multiple"
+    label: "White"
+    bypass_suggest_restrictions: yes
+
+    case: {
+      when: {
+        sql: ${TABLE}.race like '%5%' ;;
+        label: "Yes"
+      }
+
+      else: "No"
+    }
   }
 
   dimension: ref_agency {
@@ -199,6 +273,7 @@ view: client_demographics {
 
   measure: count {
     type: count
+   # drill_fields: [detail*]
   }
 
   # ----- Sets of fields for drilling ------

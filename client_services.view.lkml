@@ -6,10 +6,11 @@ view: client_services {
     sql: ${TABLE}.id ;;
   }
 
-  #   - dimension_group: added
-  #     type: time
-  #     timeframes: [time, date, week, month]
-  #     sql: ${TABLE}.added_date
+  dimension_group: added {
+    type: time
+    timeframes: [time, date, week, month]
+    sql: ${TABLE}.added_date ;;
+  }
 
   dimension_group: end {
     type: time

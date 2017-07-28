@@ -51,11 +51,11 @@ view: service_items_housing {
   }
 
   #   - dimension: program_warning
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.program_warning
   #
   #   - dimension: ref_agency_deleted
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.ref_agency_deleted
 
   dimension: ref_bed_type {
@@ -89,15 +89,15 @@ view: service_items_housing {
   }
 
   #   - dimension: reservation
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.reservation
   #
   #   - dimension: reservation_term
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.reservation_term
   #
   #   - dimension: reservation_type
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.reservation_type
 
   dimension: units_with_children {

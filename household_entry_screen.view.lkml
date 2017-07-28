@@ -26,6 +26,7 @@ FROM  client_programs as enrollments
   }
 
   dimension: total_household_income {
+    description: "Sum of all monthly income amounts from all enrolled household members"
     group_label: "Household Demographics"
     type: number
     value_format_name: usd
@@ -33,6 +34,7 @@ FROM  client_programs as enrollments
   }
 
   dimension: total_household_annual_income {
+    description: "Annual total all income amounts from all enrolled household members"
     group_label: "Household Demographics"
     type: number
     value_format_name: usd
@@ -40,6 +42,7 @@ FROM  client_programs as enrollments
   }
 
   dimension: total_household_clients {
+    description: "Count of enrolled household members"
     group_label: "Household Demographics"
     type: number
     sql: ${TABLE}.total_household_members ;;
@@ -63,27 +66,28 @@ FROM  client_programs as enrollments
   }
 
   dimension: area_median_income {
+    description: "Household AMI category based on \"Total Household Annual Income\" and the County of Agency. Requires uploading HUD Income Limits into Clarity Human Services"
     group_label: "Household Demographics"
 
     case: {
       when: {
-        sql: ${total_household_income} >= 0 and ${area_median_income_internal} is null ;;
-        label: "Below 30% Median"
+        sql: (${total_household_income} >= 0 or ${total_household_income} is null)  and ${area_median_income_internal} is null ;;
+        label: "Extremely Low Income (<30% AMI)"
       }
 
       when: {
         sql: ${area_median_income_internal} = 1 ;;
-        label: "30% Median"
+        label: "Very Low Income (31-50% AMI)"
       }
 
       when: {
         sql: ${area_median_income_internal} = 2 ;;
-        label: "Very Low Income"
+        label: "Low Income (51-80% AMI)"
       }
 
       when: {
         sql: ${area_median_income_internal} = 3 ;;
-        label: "Low Income"
+        label: "Moderate Income (>80% AMI)"
       }
 
       else: "unknown"

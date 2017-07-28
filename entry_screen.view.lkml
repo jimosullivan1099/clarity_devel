@@ -17,14 +17,16 @@ view: entry_screen {
   }
 
   dimension: age {
-    label: "Age at Entry"
-    description: "Client age at the time of project entry"
+    label: "Age at Project Start"
+    description: "Client age at the time of project start"
     type: number
-    sql: YEAR(${enrollments.start_date}) - YEAR(${clients.birth_date}) - (DATE_FORMAT(${enrollments.start_date}, '%m%d') < DATE_FORMAT(${clients.birth_date}, '%m%d')) ;;
+    sql: (select YEAR(${TABLE}.program_date) - YEAR(clients.birth_date) - (DATE_FORMAT(${TABLE}.program_date, '%m%d') < DATE_FORMAT(clients.birth_date, '%m%d'))
+      from clients where id = ${TABLE}.ref_client)
+       ;;
   }
 
   dimension: age_tier {
-    description: "Tier: Client age at the time of project entry"
+    description: "Tier: Client age at the time of project start"
     type: tier
     style: integer
     tiers: [
@@ -44,6 +46,7 @@ view: entry_screen {
   }
 
   measure: total_adults {
+    description: "Distinct count of adults based on age at project start"
     # can be average, sum, min, max, count, count_distinct, or number
     type: count_distinct
     sql: ${ref_client} ;;
@@ -55,6 +58,7 @@ view: entry_screen {
   }
 
   measure: total_children {
+    description: "Distinct count of children based on age at project start"
     # can be average, sum, min, max, count, count_distinct, or number
     type: count_distinct
     sql: ${ref_client} ;;
@@ -67,6 +71,7 @@ view: entry_screen {
 
   dimension: benefits_snap {
     label: "SNAP"
+    description: "Receiving SNAP (Food Stamps) benefits (HMIS Data Element 4.3.3)"
     type: yesno
     group_label: "Non-Cash Benefits"
     sql: ${TABLE}.benefit_snap ;;
@@ -74,6 +79,7 @@ view: entry_screen {
 
   dimension: benefits_medicaid {
     label: "Medicaid"
+    description: "On Medicaid Insurance (HMIS Data Element 4.4.3)"
     type: yesno
     group_label: "Health Insurance"
     sql: ${TABLE}.benefits_medicaid ;;
@@ -81,12 +87,14 @@ view: entry_screen {
 
   dimension: benefits_medicare {
     label: "Medicare"
+    description: "On Medicare Insurance (HMIS Data Element 4.4.4)"
     type: yesno
     group_label: "Health Insurance"
     sql: ${TABLE}.benefits_medicare ;;
   }
 
   dimension: benefits_no_insurance {
+    hidden: yes
     label: "No Health Insurance"
     type: yesno
     group_label: "Health Insurance"
@@ -95,24 +103,28 @@ view: entry_screen {
 
   dimension: benefits_noncash {
     label: "_Any Non Cash Benefit"
+    description: "Is the client receiving any non-cash benefits (HMIS DATA Element 4.3.1)"
     #     sql: ${TABLE}.benefits_noncash
     group_label: "Non-Cash Benefits"
     sql: fn_getPicklistValueName('benefits_noncash', ${TABLE}.benefits_noncash) ;;
   }
 
   dimension: benefits_other {
-    hidden: yes
+    label: "Other Health Insurance"
     type: number
+    group_label: "Health Insurance"
     sql: ${TABLE}.benefits_other ;;
   }
 
   dimension: benefits_other_source {
-    hidden: yes
+    label: "Other Health Insurance Source"
+    group_label: "Health Insurance"
     sql: ${TABLE}.benefits_other_source ;;
   }
 
   dimension: benefits_private_insurance {
     label: "Private Insurance"
+    description: "On Private Pay Insurance (HMIS Data Element 4.4.9)"
     type: yesno
     group_label: "Health Insurance"
     sql: ${TABLE}.benefits_private_insurance ;;
@@ -120,6 +132,7 @@ view: entry_screen {
 
   dimension: benefits_schip {
     label: "SCHIP"
+    description: "On State Children Health Insurance Program (HMIS Data Element 4.4.5)"
     type: yesno
     group_label: "Health Insurance"
     sql: ${TABLE}.benefits_schip ;;
@@ -127,6 +140,7 @@ view: entry_screen {
 
   dimension: benefits_section8 {
     label: "Section 8"
+    description: "Receiving Section 8 benefits (HMIS Data Element 4.3.8)"
     type: yesno
     group_label: "Non-Cash Benefits"
     sql: ${TABLE}.benefits_section8 ;;
@@ -134,6 +148,7 @@ view: entry_screen {
 
   dimension: benefits_tanf_childcare {
     label: "TANF Childcare"
+    description: "Receiving TANF Childcare benefits (HMIS Data Element 4.3.5)"
     type: yesno
     group_label: "Non-Cash Benefits"
     sql: ${TABLE}.benefits_tanf_childcare ;;
@@ -141,6 +156,7 @@ view: entry_screen {
 
   dimension: benefits_tanf_other {
     label: "TANF Other"
+    description: "Receiving TANF Other benefits (HMIS Data Element 4.3.7)"
     type: yesno
     group_label: "Non-Cash Benefits"
     sql: ${TABLE}.benefits_tanf_other ;;
@@ -148,6 +164,7 @@ view: entry_screen {
 
   dimension: benefits_tanf_transportation {
     label: "TANF Transportaion"
+    description: "Receiving TANF Transportation benefits (HMIS Data Element 4.3.6)"
     type: yesno
     group_label: "Non-Cash Benefits"
     sql: ${TABLE}.benefits_tanf_transportation ;;
@@ -155,6 +172,7 @@ view: entry_screen {
 
   dimension: benefits_temp_rent {
     label: "Temporary Rental Assistance"
+    description: "Receiving Temporary Rental Assistance benefits (HMIS Data Element 4.3.10)"
     type: yesno
     group_label: "Non-Cash Benefits"
     sql: ${TABLE}.benefits_temp_rent ;;
@@ -162,6 +180,7 @@ view: entry_screen {
 
   dimension: benefits_va_medical {
     label: "VA Medical Insurance"
+    description: "On VA Medical Insurance (HMIS Data Element 4.4.6)"
     type: yesno
     group_label: "Health Insurance"
     sql: ${TABLE}.benefits_va_medical ;;
@@ -169,18 +188,21 @@ view: entry_screen {
 
   dimension: benefits_wic {
     label: "WIC"
+    description: "Receiving Women, Infants and Children benefits (HMIS Data Element 4.3.4)"
     type: yesno
     group_label: "Non-Cash Benefits"
     sql: ${TABLE}.benefits_wic ;;
   }
 
   dimension: th_ph_less_than_7_nights {
-    label: "Length of Stay Less Than 7 Nights"
+    label: "Length of Stay Less Than 7 Days"
+    description: "For transitional and permanent housing situations, was stay less than 7 days (HMIS Data Element 3.917B.2B)"
     sql: fn_getPicklistValueName('th_ph_less_than_7_nights',${TABLE}.th_ph_less_than_7_nights) ;;
   }
 
   dimension: institutional_90_days {
     label: "Length of Stay Less Than 90 Days"
+    description: "For institutional situations, was stay less than 90 days (HMIS Data Element 3.917B.2A)"
     sql: fn_getPicklistValueName('institutional_90_days',${TABLE}.institutional_90_days) ;;
   }
 
@@ -192,11 +214,13 @@ view: entry_screen {
 
   dimension: chronic_2 {
     label: "Times Homeless in the Past Three Years"
+    description: "Times homeless, including this time, in past three years (HMIS Data Element 3.917.4)"
     sql: fn_getPicklistValueName('chronic_2',${TABLE}.chronic_2) ;;
   }
 
   dimension: chronic_3 {
-    label: "Length of time on street, in an emergency shelter, or safe haven"
+    label: "Total Months Homeless in Past Three Years"
+    description: "Total months homeless in past three years (HMIS Data Element 3.917.5)"
     sql: fn_getPicklistValueName('chronic_3',${TABLE}.chronic_3) ;;
   }
 
@@ -214,17 +238,20 @@ view: entry_screen {
 
   dimension: chronic_6 {
     label: "Client Entering from Streets..."
+    description: "If prior living situation is institution, transitional or permanent housing, before that, were they entering from streets... (HMIS Data Element 3.917B.2C)"
     sql: fn_getPicklistValueName('chronic_6',${TABLE}.chronic_6) ;;
   }
 
   dimension_group: chronic_7 {
     label: "Approximate Date Homelessness Started"
+    description: "(HMIS Data Element 3.917.3)"
     type: time
     timeframes: [time, date, week, month, year]
     sql: ${TABLE}.chronic_7 ;;
   }
 
   dimension: chronic_homeless_calculation_2014 {
+    description: "Using HUD 2014 logic, was client chronically homeless at project start"
     bypass_suggest_restrictions: yes
     type: yesno
     sql: ${enrollments.head_of_household} = 1
@@ -234,44 +261,26 @@ view: entry_screen {
   }
 
   dimension: chronic_homeless_calculation {
-    label: "Chronic Homeless at Project Entry"
+    label: "Chronic Homeless at Project Start"
+    description: "Using current HUD logic, was client chronically homeless at project start"
     type: yesno
     sql: fn_isChronicallyHomelessProjectStay(${enrollments.id},${enrollments.start_date},CURDATE()) ;;
   }
 
   dimension: chronic_homeless_calculation_PIT {
     label: "Chronic Homeless at PIT/Current Date"
+    description: "Using HUD Point-in-time logic, is client chronically homeless now"
     type: yesno
     sql: fn_isChronicallyHomelessPit(${enrollments.id},CURDATE()) ;;
   }
 
   dimension: client_location {
-    label: "CoC Code of Client on Enrollment"
+    label: "CoC Code of Client at Project Start"
+    description: "(HMIS Data Element 3.16)"
     sql: ${TABLE}.client_location ;;
   }
 
-
-  measure: count_chronic_homeless_households {
-    description: "Number of households where head of household is chronically homeless"
-    type: count_distinct
-    sql: ${ref_client} ;;
-
-    filters: {
-      field: enrollments.head_of_household
-      value: "yes"
-    }
-
-    filters: {
-      field: entry_screen.chronic_homeless_calculation
-      value: "Yes"
-    }
-  }
-
-
-
-
-
- dimension: disabled {
+  dimension: disabled {
     hidden: yes
     type: number
     sql: ${TABLE}.disabled ;;
@@ -279,176 +288,205 @@ view: entry_screen {
 
   dimension: any_disability {
     label: "Any Disability"
+    description: "Does client have any disability type recorded at project start. This is not a HUD data element"
     type: yesno
-    group_label: "Disability Types"
+    group_label: "Disability Information"
     sql: ${TABLE}.health_chronic = 1 or ${TABLE}.health_dev_disability = 1 or ${TABLE}.health_hiv = 1 or ${TABLE}.health_mental = 1 or ${TABLE}.health_phys_disability = 1 or (${TABLE}.health_substance_abuse =1 or ${TABLE}.health_substance_abuse =2 or ${TABLE}.health_substance_abuse =3  ) ;;
   }
 
   dimension: disabiing_condition {
     label: "Disabling Condition"
-    group_label: "Disability Types"
+    description: "Does the client have a disabling condition that is expected to be of long-continued and indefinite duration and substantially impairs ability to live independently. (HMIS Data Element 3.8)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('disabled',${TABLE}.disabled) ;;
   }
 
   dimension: health_chronic {
     label: "Chronic Health"
-    group_label: "Disability Types"
+    description: "The client has a chronic health disabling condition (HMIS Data Element 4.7.1)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_chronic',${TABLE}.health_chronic) ;;
   }
 
   dimension: health_chronic_services {
     label: "Chronic Health Services"
-    group_label: "Disability Types"
+    description: "Client is receiving services for chronic health condition (HMIS Data Element 4.7.2C)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_chronic_services',${TABLE}.health_chronic_services) ;;
   }
 
   dimension: health_chronic_documented {
     label: "Chronic Health Documented"
-    group_label: "Disability Types"
+    description: "Chronic health condition is documented (HMIS Data Element 4.7.2B)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_chronic_documented',${TABLE}.health_chronic_documented) ;;
   }
 
   dimension: health_chronic_longterm {
     label: "Chronic Health Longterm"
-    group_label: "Disability Types"
+    description: "Chronic health condition expected to be long-continued and indefinite duration (HMIS Data Element 4.7.2A)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_chronic_longterm',${TABLE}.health_chronic_longterm) ;;
   }
 
   dimension: health_dev_disability {
     label: "Developmental"
-    group_label: "Disability Types"
+    description: "The client has a developmental disabling condition (HMIS Data Element 4.6.1)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_dev_disability',${TABLE}.health_dev_disability) ;;
   }
 
   dimension: health_dev_disability_services {
     label: "Developmental Services"
-    group_label: "Disability Types"
+    description: "Client is receiving services for developmental disability (HMIS Data Element 4.6.2C)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_dev_disability_services',${TABLE}.health_dev_disability_services) ;;
   }
 
   dimension: health_dev_disability_documented {
     label: "Developmental Documented"
-    group_label: "Disability Types"
+    description: "Developmental disability is documented (HMIS Data Element 4.6.2B)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_dev_disability_documented',${TABLE}.health_dev_disability_documented) ;;
   }
 
   dimension: health_dev_disability_independence {
     label: "Developmental Independence"
-    group_label: "Disability Types"
+    description: "Developmental disability expected to substantially impair ability to live independently (HMIS Data Element 4.6.2A)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_dev_disability_independence',${TABLE}.health_dev_disability_independence) ;;
   }
 
   dimension: health_hiv {
     label: "HIV/AIDS"
-    group_label: "Disability Types"
+    description: "The client has HIV/AIDS (HMIS Data Element 4.8.1)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_hiv',${TABLE}.health_hiv) ;;
   }
 
   dimension: health_hiv_services {
     label: "HIV/AIDS Services"
-    group_label: "Disability Types"
+    description: "Client is receiving services for HIV/AIDS (HMIS Data Element 4.8.2C)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_hiv_services',${TABLE}.health_hiv_services) ;;
   }
 
   dimension: health_hiv_documented {
     label: "HIV/AIDS Documented"
-    group_label: "Disability Types"
+    description: "HIV/AIDS disability is documented (HMIS Data Element 4.8.2B)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_hiv_documented',${TABLE}.health_hiv_documented) ;;
   }
 
   dimension: health_hiv_independence {
     label: "HIV/AIDS Independence"
-    group_label: "Disability Types"
+    description: "HIV/AIDS disability expected to substantially impair ability to live independently (HMIS Data Element 4.8.2A)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_hiv_independence',${TABLE}.health_hiv_independence) ;;
   }
 
   dimension: health_mental {
     label: "Mental Health"
-    group_label: "Disability Types"
+    description: "The client has a mental health disabling condition (HMIS Data Element 4.9.1)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_mental',${TABLE}.health_mental) ;;
   }
 
   dimension: health_mental_services {
     label: "Mental Health Services"
-    group_label: "Disability Types"
+    description: "Client is receiving services for mental health condition (HMIS Data Element 4.9.2C)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_mental_services',${TABLE}.health_mental_services) ;;
   }
 
   dimension: health_mental_confirmed {
     label: "Mental Health Confirmed (PATH)"
-    group_label: "Disability Types"
+    description: "PATH Only: How was mental health disabling condition confirmed (HMIS Data Element 4.9.2D)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_mental_confirmed',${TABLE}.health_mental_confirmed) ;;
   }
 
   dimension: health_mental_documented {
     label: "Mental Health Documented"
-    group_label: "Disability Types"
+    description: "Mental health disabling condition is documented (HMIS Data Element 4.9.2B)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_mental_documented',${TABLE}.health_mental_documented) ;;
   }
 
   dimension: health_mental_longterm {
     label: "Mental Health Longterm"
-    group_label: "Disability Types"
+    description: "Mental health disabling condition expected to be long-continued and indefinite duration (HMIS Data Element 4.9.2A)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_mental_longterm',${TABLE}.health_mental_longterm) ;;
   }
 
   dimension: health_mental_smi {
     label: "Mental Health SMI (PATH)"
-    group_label: "Disability Types"
+    description: "PATH Only: Serious mental illness and how confirmed (HMIS Data Element 4.9.2E)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_mental_smi',${TABLE}.health_mental_smi) ;;
   }
 
   dimension: health_phys_disability {
     label: "Physical"
-    group_label: "Disability Types"
+    description: "The client has a physical disabling condition (HMIS Data Element 4.5.1)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_phys_disability',${TABLE}.health_phys_disability) ;;
   }
 
   dimension: health_phys_disability_services {
     label: "Physical Services"
-    group_label: "Disability Types"
+    description: "Client is receiving services for physical disability (HMIS Data Element 4.5.2C)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_phys_disability_services',${TABLE}.health_phys_disability_services) ;;
   }
 
   dimension: health_phys_disability_documented {
     label: "Physical Documented"
-    group_label: "Disability Types"
+    description: "Physical disabling condition is documented (HMIS Data Element 4.5.2B)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_phys_disability_documented',${TABLE}.health_phys_disability_documented) ;;
   }
 
   dimension: health_phys_disability_longterm {
     label: "Physical Longterm"
+    description: "Physical disabling condition expected to be long-continued and indefinite duration (HMIS Data Element 4.5.2A)"
     group_label: "Disability Types"
     sql: fn_getPicklistValueName('health_phys_disability_longterm',${TABLE}.health_phys_disability_longterm) ;;
   }
 
   dimension: health_substance_abuse {
     label: "Substance Abuse"
-    group_label: "Disability Types"
+    description: "The client has a substance abuse disabling condition (HMIS Data Element 4.10.1)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_substance_abuse',${TABLE}.health_substance_abuse) ;;
   }
 
   dimension: health_substance_abuse_services {
     label: "Substance Abuse Services"
-    group_label: "Disability Types"
+    description: "Client is receiving services for substance abuse (HMIS Data Element 4.10.2C)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_substance_abuse_services',${TABLE}.health_substance_abuse_services) ;;
   }
 
   dimension: health_substance_abuse_confirmed {
     label: "Substance Abuse Confirmed (PATH)"
+    description: "PATH Only: How was substance abuse disabling condition confirmed (HMIS Data Element 4.10.2D)"
     group_label: "Disability Types"
     sql: fn_getPicklistValueName('health_substance_abuse_confirmed',${TABLE}.health_substance_abuse_confirmed) ;;
   }
 
   dimension: health_substance_abuse_documented {
     label: "Substance Abuse Documented"
-    group_label: "Disability Types"
+    description: "Substance abuse disabling condition is documented (HMIS Data Element 4.10.2B)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_substance_abuse_documented',${TABLE}.health_substance_abuse_documented) ;;
   }
 
   dimension: health_substance_abuse_longterm {
     label: "Substance Abuse Longterm"
-    group_label: "Disability Types"
+    description: "Substance abuse disabling condition expected to be long-continued and indefinite duration (HMIS Data Element 4.10.2A)"
+    group_label: "Disability Information"
     sql: fn_getPicklistValueName('health_substance_abuse_longterm',${TABLE}.health_substance_abuse_longterm) ;;
   }
 
@@ -535,7 +573,7 @@ view: entry_screen {
   }
 
   dimension: housing_status_text {
-    label: "Housing Status @ Entry"
+    label: "Housing Status @ Project Start"
     sql: fn_getPicklistValueName('housing_status',${housing_status}) ;;
   }
 
@@ -545,6 +583,7 @@ view: entry_screen {
   }
 
   measure: count_stably_housed {
+    description: "Distinct count of those clients with [Housing Status @ Project Start]=\"Stably Housed\""
     type: count_distinct
     sql: ${ref_client} ;;
 
@@ -568,7 +607,7 @@ view: entry_screen {
   measure: percent_stably_housed {
     hidden: yes
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_stably_housed} / NULLIF(${count_asked_about_housing},0) ;;
   }
 
@@ -636,6 +675,7 @@ view: entry_screen {
 
   measure: average_income_earned {
     label: "Earned Income Average"
+    description: "\"Earned Income\", mean average per client"
     # can be average, sum, min, max, count, count_distinct, or number
     type: average
     value_format_name: usd
@@ -646,6 +686,7 @@ view: entry_screen {
 
   measure: average_cash_income {
     label: "Average Cash Income"
+    description: "Mean average, per client, of income from any source"
     # can be average, sum, min, max, count, count_distinct, or number
     type: average
     value_format_name: usd
@@ -655,6 +696,7 @@ view: entry_screen {
 
   measure: total_income_earned {
     label: "Earned Income Total"
+    description: "Sum of \"Earned income\""
     # can be average, sum, min, max, count, count_distinct, or number
     type: sum
     value_format_name: usd
@@ -671,6 +713,7 @@ view: entry_screen {
   }
 
   measure: count_with_income {
+    description: "Distinct count of clients where \"Income from Any Source\" = \"Income\""
     type: count_distinct
     group_label: "Income Sources and Amounts"
     sql: ${ref_client} ;;
@@ -693,8 +736,9 @@ view: entry_screen {
   }
 
   measure: percent_with_income {
+    description: "\"Count with Income\"/Distinct count of clients with any response to \"Income from Any Source\""
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     group_label: "Income Sources and Amounts"
     sql: 100.0 * ${count_with_income} / NULLIF(${count_asked_about_income},0) ;;
   }
@@ -723,6 +767,7 @@ view: entry_screen {
   }
 
   measure: total_cash_income {
+    description: "Sum of amounts from all sources of income"
     # can be average, sum, min, max, count, count_distinct, or number
     type: sum
     value_format_name: usd
@@ -851,7 +896,7 @@ view: entry_screen {
     label: "Income: Total Unemployment Income"
     # can be average, sum, min, max, count, count_distinct, or number
     type: sum
-    format: "$%0.0f"
+    value_format: "$#0.0f"
     sql: ${income_unemployment} ;;
   }
 
@@ -899,7 +944,7 @@ view: entry_screen {
     label: "Income: Total Unemployment Income"
     # can be average, sum, min, max, count, count_distinct, or number
     type: sum
-    format: "$%0.0f"
+    value_format_name: percent_1
     sql: ${income_workers_comp} ;;
   }
 
@@ -984,7 +1029,7 @@ view: entry_screen {
   }
 
   dimension: prior_residence_text {
-    label: "Residence Prior to Project Entry"
+    label: "Residence Prior to Project Start"
     sql: fn_getPicklistValueName('prior_residence',${prior_residence}) ;;
   }
 
@@ -1338,7 +1383,7 @@ view: entry_screen {
   }
 
   dimension: rhy_referral_freq_approached {
-    label: "Referral Source: Times Approached Prior to Entry"
+    label: "Referral Source: Times Approached Prior to Project Start"
     group_label: "RHY Questions"
     sql: fn_getPicklistValueName('rhy_referral_freq_approached',${TABLE}.rhy_referral_freq_approached) ;;
   }
@@ -1416,12 +1461,35 @@ view: entry_screen {
   }
 
   dimension: hp_screening_score {
+    hidden: yes
     label: "HP Screening Score"
     group_label: "SSVF/VASH"
     sql: ${TABLE}.hp_screening_score ;;
   }
 
+  dimension: ssvf_targeting_field_14 {
+    label: "Single Parent With Minor Child(ren)"
+    group_label: "SSVF/VASH"
+    type: yesno
+    sql: ${TABLE}.ssvf_targeting_field_14 ;;
+  }
+
+  dimension: ssvf_targeting_field_20 {
+    label: "HP Applicant Total Points (integer)"
+    group_label: "SSVF/VASH"
+    type: number
+    sql: ${TABLE}.ssvf_targeting_field_20 ;;
+  }
+
+  dimension: ssvf_targeting_field_21 {
+    label: "Grantee Targeting Threshold Score (integer)"
+    group_label: "SSVF/VASH"
+    type: number
+    sql: ${TABLE}.ssvf_targeting_field_21 ;;
+  }
+
   measure: count {
+    hidden: yes
     type: count
     drill_fields: [detail*]
   }
@@ -1438,5 +1506,9 @@ view: entry_screen {
       client_programs.end_date,
       client_programs.still_in_program
     ]
+  }
+
+  set: CESet {
+    fields: [-age]
   }
 }

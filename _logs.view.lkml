@@ -1,4 +1,5 @@
 view: member_activity_logs {
+  label: "Staff Activity Logs"
   sql_table_name: _logs ;;
 
   dimension: id {

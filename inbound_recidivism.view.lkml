@@ -79,7 +79,7 @@ view: inbound_recidivism {
   measure: count {
     type: count
     hidden: yes
-    drill_fields: [detail*]
+   # drill_fields: [detail*]
   }
 
   measure: distinct_client_count {
@@ -146,25 +146,25 @@ view: inbound_recidivism {
 
   measure: percent_entries_appeared_before {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_entries_appeared_before} / NULLIF(${entry_screen.count},0) ;;
   }
 
   measure: percent_entries_appeared_before_in_same_program {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_entries_appeared_before_in_same_program} / NULLIF(${entry_screen.count},0) ;;
   }
 
   measure: percent_entries_appeared_before_with_stable_housing {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_entries_appeared_before_with_stable_housing} / NULLIF(${entry_screen.count},0) ;;
   }
 
   measure: percent_entries_appeared_before_with_stable_housing_in_same_program {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_entries_appeared_before_with_stable_housing_in_same_program} / NULLIF(${entry_screen.count},0) ;;
   }
 
@@ -219,26 +219,26 @@ view: inbound_recidivism {
 
   measure: percent_clients_appeared_before {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_clients_appeared_before} / NULLIF(${clients.count},0) ;;
   }
 
   measure: percent_clients_appeared_before_in_same_program {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_clients_appeared_before_in_same_program} / NULLIF(${clients.count},0) ;;
   }
 
   measure: percent_clients_appeared_before_with_stable_housing {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     drill_fields: [programs.name, entry_screen.housing_status_text, clients.count, count_clients_appeared_before_with_stable_housing]
     sql: 100.0 * ${count_clients_appeared_before_with_stable_housing} / nullif(${clients.count},0) ;;
   }
 
   measure: percent_clients_appeared_before_with_stable_housing_in_same_program {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_clients_appeared_before_with_stable_housing_in_same_program} / NULLIF(${clients.count},0) ;;
   }
 
@@ -326,13 +326,5 @@ view: inbound_recidivism {
     sql: ${days_since_last_exit_with_stable_housing_in_same_program} ;;
   }
 
-  set: detail {
-    fields: [
-      screen_id,
-      client_id,
-      program_id,
-      housing_status,
-      cp_start_date
-    ]
-  }
+
 }

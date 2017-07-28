@@ -28,11 +28,13 @@ view: client_field_interactions {
   }
 
   dimension: latitude {
+    hidden: yes
     type: number
     sql: ${TABLE}.latitude ;;
   }
 
   dimension: longitude {
+    hidden: yes
     type: number
     sql: ${TABLE}.longitude ;;
   }
@@ -44,21 +46,25 @@ view: client_field_interactions {
   }
 
   dimension: ref_agency {
+    hidden: yes
     type: number
     sql: ${TABLE}.ref_agency ;;
   }
 
   dimension: ref_client {
+    hidden: yes
     type: number
     sql: ${TABLE}.ref_client ;;
   }
 
   dimension: ref_user {
+    hidden: yes
     type: number
     sql: ${TABLE}.ref_user ;;
   }
 
   dimension: ref_user_updated {
+    hidden: yes
     type: number
     sql: ${TABLE}.ref_user_updated ;;
   }

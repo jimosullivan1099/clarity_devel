@@ -1,4 +1,6 @@
 view: members {
+  label: "Staff"
+
   dimension: id {
     primary_key: yes
     type: number
@@ -68,7 +70,13 @@ view: members {
 
   dimension: ref_profile_screen {
     label: "Profile Override"
-    sql: ${screens.name} ;;
+    sql: ${TABLE}.ref_profile_screen ;;
+  }
+
+  dimension: profile_override {
+    label: "Profile Override"
+    sql: (select name from screens s where s.id = ${TABLE}.ref_profile_screen)
+      ;;
   }
 
   dimension: ref_user {
@@ -109,6 +117,11 @@ view: members {
 
   dimension: status {
     sql: ${users.user_status} ;;
+  }
+
+  dimension: last_policy_updated_date {
+    label: "User Policy, last updated"
+    sql: ${TABLE}.last_policy_updated_date ;;
   }
 
   dimension: deleted {

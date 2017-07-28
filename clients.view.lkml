@@ -13,16 +13,6 @@ view: clients {
     sql: ${TABLE}.id ;;
   }
 
-  dimension: id_with_profile_link {
-    label: "Personal Id with Profile Link"
-    description: "Legacy dimension. Recommend using \"Personal ID\""
-    sql: ${TABLE}.id ;;
-    html: {{ linked_value }}
-      <a href=https://{{ _access_filters["site.name"]] }}.clarityhs.com/clients/{{ value }}/profile target=_new> [Profile]</a>
-      ;;
-  }
-
-  #
   #   - dimension: client_photo
   #     sql: ${id}
   #     html: |
@@ -68,7 +58,6 @@ view: clients {
       55,
       65
     ]
-    #X# suggest:true
     sql: ${age} ;;
   }
 
@@ -185,13 +174,6 @@ view: clients {
   # SETS #
 
   set: detail {
-    fields: [
-      clients.id,
-      clients.full_name,
-      clients.age,
-      programs.name,
-      client_programs.start_date,
-      client_programs.end_date
-    ]
+    fields: [id, full_name, age]
   }
 }

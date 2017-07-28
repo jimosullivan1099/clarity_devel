@@ -33,7 +33,7 @@ view: population {
       inner join ${dates.SQL_TABLE_NAME} dates
               ON dates.date >= cp.start_date
               AND (dates.date < cp.end_date OR cp.end_date IS NULL)
-      where dates.date >= '2016-01-01' and p.ref_category in (1,2,3,8,9,10)
+      where dates.date >= '2017-01-01' and p.ref_category in (1,2,3)
       AND (cp.deleted = 0 or cp.deleted is null)
 
       GROUP BY 1,2,3,4,5
@@ -57,7 +57,7 @@ view: population {
 
   dimension_group: observation {
     type: time
-    timeframes: [date, week, month]
+    timeframes: [date, week, month, quarter]
     sql: ${TABLE}.date ;;
   }
 

@@ -23,6 +23,11 @@ view: client_program_screening_base {
           then cpd.id end)
           AS last_annual_screen_id
 
+        ,max(
+          case when screen_type = 5
+          then cpd.id end)
+          AS followup_screen_id
+
       FROM
       client_program_demographics cpd
       INNER JOIN client_programs cp on cpd.ref_program = cp.id
@@ -78,11 +83,24 @@ view: client_program_screening_base {
     sql: ${TABLE}.last_annual_screen_id ;;
   }
 
+  dimension: followup_screen_id {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.followup_screen_id ;;
+  }
+
   dimension: last_screening_to_analyze {
     type: number
     hidden: yes
-    sql: COALESCE(${last_exit_screen_id},${last_update_screen_id}) ;;
+    sql: COALESCE(${followup_screen_id},${last_exit_screen_id},${last_update_screen_id}) ;;
   }
 
-
+  set: detail {
+    fields: [
+      ref_client,
+      ref_program,
+      last_exit_screen_id,
+      last_annual_screen_id
+    ]
+  }
 }

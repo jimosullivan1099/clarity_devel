@@ -65,6 +65,6 @@ view: household_makeup {
 
 
   set: detail {
-    fields: [id, count_adults, count_children]
+    fields: [household_type,count_adults,count_children]
   }
 }

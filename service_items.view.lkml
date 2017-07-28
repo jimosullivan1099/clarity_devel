@@ -20,7 +20,7 @@ view: service_items {
   #     sql: ${TABLE}.allow_groups
   #
   #   - dimension: charge_attendance
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.charge_attendance
   #
   #   - dimension: default_amount
@@ -63,7 +63,7 @@ view: service_items {
   #     sql: ${TABLE}.program_option
   #
   #   - dimension: ref_charge_type
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.ref_charge_type
   #
   dimension: ref_delivery_type {
@@ -77,7 +77,7 @@ view: service_items {
   }
 
   #   - dimension: ref_funding
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.ref_funding
 
   dimension: ref_service {
@@ -87,19 +87,19 @@ view: service_items {
   }
 
   #   - dimension: ref_user_updated
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.ref_user_updated
 
   #   - dimension: si_cat1
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.si_cat1
   #
   #   - dimension: si_cat2
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.si_cat2
   #
   #   - dimension: si_cat3
-  #     type: number
+  #     type:number
   #     sql: ${TABLE}.si_cat3
 
   dimension: start_availability {

@@ -9,9 +9,9 @@ view: outbound_recidivism {
         ,cpd.added_date AS screen_add_date
         ,cp.end_date AS cp_end_date
         ,count(subsequent_entries.id) * 1.0 AS subsequent_entries_number
-        ,sum(CASE WHEN subsequent_programs.ref_category IN (1,2,13)  THEN 1.0 END) AS subsequent_entries_without_stable_housing
+        ,sum(CASE WHEN subsequent_programs.ref_category IN (1,2,4,13)  THEN 1.0 END) AS subsequent_entries_without_stable_housing
         ,min(subsequent_entries_cp.start_date) AS next_entry_date
-        ,min(CASE WHEN subsequent_programs.ref_category IN (1,2,13) THEN subsequent_entries_cp.start_date END ) AS next_entry_date_without_stable_housing
+        ,min(CASE WHEN subsequent_programs.ref_category IN (1,2,4,13) THEN subsequent_entries_cp.start_date END ) AS next_entry_date_without_stable_housing
 
       from client_program_demographics cpd
 
@@ -76,7 +76,7 @@ view: outbound_recidivism {
   measure: count {
     type: count
     hidden: yes
-    drill_fields: [detail*]
+  #  drill_fields: [detail*]
   }
 
   measure: distinct_client_count {
@@ -115,13 +115,13 @@ view: outbound_recidivism {
 
   measure: percent_exits_appears_again {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_exits_appears_again} / NULLIF(${last_screen.count},0) ;;
   }
 
   measure: percent_exits_appears_again_without_stable_housing {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_exits_appears_again_without_stable_housing} / NULLIF(${last_screen.count},0) ;;
   }
 
@@ -156,13 +156,13 @@ view: outbound_recidivism {
 
   measure: percent_clients_appears_again {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     sql: 100.0 * ${count_clients_appears_again} / NULLIF(${clients.count},0) ;;
   }
 
   measure: percent_clients_appears_again_without_stable_housing {
     type: number
-    format: "%0.1f%"
+    value_format_name: percent_1
     drill_fields: [programs.name, last_screen.housing_status_text, clients.count, count_clients_appears_again_without_stable_housing]
     sql: 100.0 * ${count_clients_appears_again_without_stable_housing} / nullif(${clients.count},0) ;;
   }
@@ -214,16 +214,5 @@ view: outbound_recidivism {
     sql: ${days_until_next_entry_without_stable_housing} ;;
   }
 
-  set: detail {
-    fields: [
-      screen_id,
-      client_id,
-      program_id,
-      housing_status,
-      cp_end_date,
-      subsequent_entries_number,
-      subsequent_entries_in_same_program,
-      subsequent_entries_without_stable_housing
-    ]
-  }
+
 }

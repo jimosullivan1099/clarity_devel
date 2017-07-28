@@ -427,7 +427,7 @@ view: client_program_demographics {
 
   measure: percent_with_income {
     type: number
-    format: "%0.1f%"
+    value_format: "%0.1f%"
     sql: 100.0 * ${count_with_income} / NULLIF(${count_asked_about_income},0) ;;
   }
 
@@ -680,6 +680,18 @@ view: client_program_demographics {
        ;;
   }
 
+  dimension: ssvf_targeting_field_20 {
+    label: "HP Applicant Total Points (integer)"
+    type: number
+    sql: ${TABLE}.ssvf_targeting_field_20 ;;
+  }
+
+  dimension: ssvf_targeting_field_21 {
+    label: "Grantee Targeting Threshold Score (integer)"
+    type: number
+    sql: ${TABLE}.ssvf_targeting_field_21 ;;
+  }
+
   dimension: zipcode {
     type: zipcode
     sql: ${TABLE}.zipcode ;;
@@ -692,13 +704,9 @@ view: client_program_demographics {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
+   # drill_fields: [detail*]
   }
 
   # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id
-    ]
-  }
+
 }
