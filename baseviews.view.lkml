@@ -75,6 +75,7 @@ include: "user_agencies.view.lkml"
 include: "screen_fields.view.lkml"
 include: "client_program_endpoint_mapping.view.lkml"
 include: "inbound_recidivism.view.lkml"
+include: "program_openings_custom.view.lkml"
 
 
 explore: base {
@@ -956,6 +957,13 @@ explore: agencies {
 
   join: program_openings {
     sql_on: ${program_openings.ref_program} = ${programs.id} ;;
+  }
+
+join: program_openings_custom {
+  view_label: "Program Openings"
+  sql: ${program_openings.id} = ${program_openings_custom.id} ;;
+
+
   }
 
   join: program_openings_history {
