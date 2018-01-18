@@ -951,19 +951,20 @@ explore: agencies {
     sql_on: ${programs.id} = ${program_inventory.ref_program} and  ( program_inventory.deleted is null OR  program_inventory.deleted =0 ) ;;
   }
 
-  #       join: program_service_items
-  #       fields: []
-  #       sql_on: ${programs.id} = ${program_service_items.ref_program}
 
   join: program_openings {
-    sql_on: ${program_openings.ref_program} = ${programs.id} ;;
+  relationship: one_to_many
+  type: left_outer
+  sql_on: ${program_openings.ref_program} = ${programs.id} ;;
   }
 
-join: program_openings_custom {
+join: program_openings_custom
+{
+  required_joins: [program_openings]
   view_label: "Program Openings"
-  sql: ${program_openings.id} = ${program_openings_custom.id}.id} ;;
-
-
+  relationship: one_to_one
+  type: inner
+  sql_on: ${program_openings.id} = ${program_openings_custom.id} ;;
   }
 
   join: program_openings_history {

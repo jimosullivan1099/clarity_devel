@@ -8,10 +8,10 @@ view: program_openings_custom {
     sql: ${TABLE}.id ;;
   }
 
-  dimension: rooms {
-    label: "rooms"
+  dimension: test {
+    label: "test"
     type: string
-    sql:COLUMN_GET(${TABLE}.custom_data,'rooms' AS CHAR(255)));;
+    sql:COLUMN_GET(${TABLE}.custom_data,'rooms' AS CHAR(255));;
   }
 
 
