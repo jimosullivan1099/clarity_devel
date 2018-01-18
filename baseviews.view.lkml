@@ -961,7 +961,7 @@ explore: agencies {
 
 join: program_openings_custom {
   view_label: "Program Openings"
-  sql: ${program_openings.id} = ${program_openings_custom.id} ;;
+  sql: ${program_openings.id} = ${program_openings_custom.id}.id} ;;
 
 
   }
